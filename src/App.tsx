@@ -1,11 +1,8 @@
-import { useState, useContext } from "react";
-import reactLogo from "./assets/react.svg";
-import "./App.css";
+import { useState } from 'react';
+import './App.css';
 
-function App() {
+export const App = () => {
   const [count, setCount] = useState(0);
 
-  return <div className="App"></div>;
-}
-
-export default App;
+  return <div className='App' />;
+};
