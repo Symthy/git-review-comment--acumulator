@@ -10,8 +10,8 @@ export default {
     'airbnb/hooks',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'plugin:jest/recommended',
-    'prettier'
+    'plugin:testing-library/react',
+    'plugin:jest-dom/recommended'
   ],
   overrides: [
     {
@@ -42,7 +42,7 @@ export default {
       jsx: true
     },
     ecmaVersion: 'latest',
-    // sourceType: 'module',
+    sourceType: 'module',
     tsconfigRootDir: __dirname, // プロジェクトルートの絶対パス
     project: './tsconfig.json' // コンパイラ設定ファイルの設定（tsconfigRootDirからの相対パス）
   },
@@ -50,6 +50,9 @@ export default {
     'react',
     'react-hooks',
     '@typescript-eslint',
+    'prettier',
+    'testing-library',
+    'jest-dom',
     'unused-imports', // 使っていないimportを自動で削除
     'import'
   ],
@@ -95,47 +98,22 @@ export default {
         allowAsStatement: true // void演算子の許可
       }
     ],
-    'import/extensions': [
-      'error',
-      {
-        js: 'never', // importのときに以下の拡張子を記述しなくてもエラーにしない
-        jsx: 'never',
-        ts: 'never',
-        tsx: 'never'
-      }
-    ],
+    // 'import/extensions': [
+    //   'error',
+    //   {
+    //     js: 'never', // importのときに以下の拡張子を記述しなくてもエラーにしない
+    //     jsx: 'never',
+    //     ts: 'never',
+    //     tsx: 'never'
+    //   }
+    // ],
     'import/order': [
       'error',
       {
         groups: ['builtin', 'external', 'internal', ['parent', 'sibling'], 'object', 'type', 'index'],
         'newlines-between': 'never', // グループ毎にで改行を入れない
         pathGroupsExcludedImportTypes: ['builtin'],
-        alphabetize: { order: 'asc', caseInsensitive: true },
-        pathGroups: [
-          // react 関連を先頭に
-          {
-            pattern: 'react**',
-            group: 'external',
-            position: 'before'
-          },
-          // プロジェクトに合わせて調整
-          {
-            pattern: '{@/libs/**,@/features/**,@/app/**}',
-            group: 'internal',
-            position: 'before'
-          },
-          {
-            pattern: '{@/components/**,@/pages/**}',
-            group: 'internal',
-            position: 'before'
-          },
-          // css modules は一番最後にする
-          {
-            pattern: '{@/**.module.css,@/**.module.scss}',
-            group: 'index',
-            position: 'after'
-          }
-        ]
+        alphabetize: { order: 'asc', caseInsensitive: true }
       }
     ]
     // 'import/resolver': {

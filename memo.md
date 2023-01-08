@@ -18,3 +18,28 @@ react-apollo-multiple-clients よりは ApolloLink を使うのが良さそう�
 ## VITE
 
 環境変数：https://ja.vitejs.dev/guide/env-and-mode.html#env-files
+
+## GraphQL Code Generator
+
+2.13? で依存関係等に手が入ったらしく手順が変わった模様
+
+```
+npm i graphql
+npm i -D typescript
+npm i -D @graphql-codegen/cli
+npm i -D @graphql-codegen/client-preset
+```
+
+```
+npx graphql-code-generator init
+```
+
+※ @graphql-codegen/client-preset を入れているのに無いといわれた。恐らく他パッケージと競合して認識できなくなった？
+以下を実行すると治りはした
+
+```
+npm audit fix --force  // criticalが数件出たため以下も実行
+npm audit fix
+```
+
+公式サンプル: https://github.com/dotansimha/graphql-code-generator/tree/master/examples/front-end/react/apollo-client

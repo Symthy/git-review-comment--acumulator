@@ -12,11 +12,11 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": true, // ref: https://zenn.dev/ryo_kawamata/articles/0f63b7ffdaed97
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "."
   },
-  "include": ["src", "vite.config.ts"],
+  "include": ["src", ".eslintrc.cjs", "vite.config.ts", "tests/setupTest.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

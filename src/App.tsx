@@ -1,7 +1,7 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import './App.css';
-import { GithubData } from './components/github-data';
-import { GITHUB_TOKEN } from './config/token';
+import { GithubData } from './components/github-data.js';
+import { GITHUB_TOKEN } from './config/token.js';
 
 const githubGqlClient = new ApolloClient({
   uri: 'https://api.github.com/graphql',

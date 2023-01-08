@@ -15,6 +15,9 @@ dist-ssr
 *.txt
 conf
 
+# graphql code gen
+src/gql
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
