@@ -17,6 +17,7 @@ conf
 
 # graphql code gen
 src/gql
+!.eslintignore
 
 # Editor directories and files
 .vscode/*

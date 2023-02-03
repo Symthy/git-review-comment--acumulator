@@ -1,16 +1,20 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from 'urql';
 import { GET_GITHUB_ISSUE } from 'src/github-queries';
 
 export const GithubData = () => {
-  const { loading, error, data } = useQuery<RepositoryData>(GET_GITHUB_ISSUE, {
+  const [result, reexecuteQuery] = useQuery<RepositoryData>({
+    query: GET_GITHUB_ISSUE,
     variables: {
       owner: 'Symthy',
       name: 'TodoList-ts-pre'
     }
   });
 
-  if (loading) return <p>loading...</p>;
-  if (error) return <p>{`Error: ${error}`}</p>;
+  const { data, fetching, error } = result;
+  if (fetching) return <p>Loading...</p>;
+  if (error) {
+    return <div>An error occurred! {error.toString()}</div>;
+  }
 
   const issueEdges = data?.repository.issues.edges;
 

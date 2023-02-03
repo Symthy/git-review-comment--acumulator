@@ -1,10 +1,9 @@
 {
   "name": "git-review-comment--acumulator",
   "private": true,
-  "type": "module",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite dev",
     "build": "tsc && vite build",
     "test": "vitest",
     "preview": "vite preview",
@@ -19,10 +18,8 @@
     "codegen": "graphql-codegen --config ./codegen.ts"
   },
   "dependencies": {
-    "@apollo/client": "^3.6.9",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
-    "@graphql-codegen/client-preset": "^1.0.2",
     "@mui/joy": "^5.0.0-alpha.47",
     "graphql": "^16.6.0",
     "js-yaml": "^4.1.0",
@@ -36,7 +33,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
-    "@graphql-codegen/cli": "^2.13.1",
+    "@graphql-codegen/cli": "^2.16.3",
+    "@graphql-codegen/client-preset": "^1.2.5",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.4.22",
     "@storybook/addon-interactions": "^6.5.12",

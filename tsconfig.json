@@ -18,5 +18,6 @@
     "baseUrl": "."
   },
   "include": ["src", ".eslintrc.cjs", "vite.config.ts", "tests/setupTest.ts"],
+  "exclude": ["src/gql/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

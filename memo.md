@@ -43,3 +43,7 @@ npm audit fix
 ```
 
 公式サンプル: https://github.com/dotansimha/graphql-code-generator/tree/master/examples/front-end/react/apollo-client
+
+## その他
+
+[Vite 環境で index.html から環境変数を参照する](https://dev.classmethod.jp/articles/vite-index-html-read-env-variables/)
