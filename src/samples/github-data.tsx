@@ -1,5 +1,5 @@
 import { useQuery } from 'urql';
-import { GET_GITHUB_ISSUE } from 'src/github-queries';
+import { GET_GITHUB_ISSUE } from './github-queries';
 
 export const GithubData = () => {
   const [result, reexecuteQuery] = useQuery<RepositoryData>({

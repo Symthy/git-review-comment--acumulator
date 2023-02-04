@@ -13,7 +13,8 @@ dist-ssr
 *.local
 *.eslintcache
 *.txt
-conf
+conf/*
+!conf/.env.template
 
 # graphql code gen
 src/gql
