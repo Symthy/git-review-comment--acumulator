@@ -1,8 +1,15 @@
+import { useGitLabQuery } from 'src/hooks/gitGraphqlClient';
 import { useQuery } from 'urql';
 import { GET_GITLAB_PROJECTS } from './gitlab-queries';
 
 export const GitLabData = () => {
-  const [result, reexecuteQuery] = useQuery<Group>({
+  // const [result, reexecuteQuery] = useQuery<Group>({
+  //   query: GET_GITLAB_PROJECTS,
+  //   variables: {
+  //     groupFullPath: 'gitlab-instance-b5710bbc'
+  //   }
+  // });
+  const [result, reexecuteQuery] = useGitLabQuery<Group>({
     query: GET_GITLAB_PROJECTS,
     variables: {
       groupFullPath: 'gitlab-instance-b5710bbc'

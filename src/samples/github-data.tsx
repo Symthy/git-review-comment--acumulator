@@ -1,8 +1,16 @@
+import { useGithubQuery } from 'src/hooks/gitGraphqlClient';
 import { useQuery } from 'urql';
 import { GET_GITHUB_ISSUE } from './github-queries';
 
 export const GithubData = () => {
-  const [result, reexecuteQuery] = useQuery<RepositoryData>({
+  // const [result, reexecuteQuery] = useQuery<RepositoryData>({
+  //   query: GET_GITHUB_ISSUE,
+  //   variables: {
+  //     owner: 'Symthy',
+  //     name: 'TodoList-ts-pre'
+  //   }
+  // });
+  const [result, reexecuteQuery] = useGithubQuery<RepositoryData>({
     query: GET_GITHUB_ISSUE,
     variables: {
       owner: 'Symthy',
