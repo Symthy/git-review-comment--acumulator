@@ -1,6 +1,5 @@
-import { useGithubQuery } from 'src/hooks/gitGraphqlClient';
-import { useQuery } from 'urql';
-import { GET_GITHUB_ISSUE } from './github-queries';
+import { useGithubQuery } from 'src/hooks/useGitQuery';
+import { GET_GITHUB_ISSUES } from '../data/github/github-queries';
 
 export const GithubData = () => {
   // const [result, reexecuteQuery] = useQuery<RepositoryData>({
@@ -10,8 +9,8 @@ export const GithubData = () => {
   //     name: 'TodoList-ts-pre'
   //   }
   // });
-  const [result, reexecuteQuery] = useGithubQuery<RepositoryData>({
-    query: GET_GITHUB_ISSUE,
+  const [result, reexecuteQuery] = useGithubQuery<RepositoryIssues>({
+    query: GET_GITHUB_ISSUES,
     variables: {
       owner: 'Symthy',
       name: 'TodoList-ts-pre'

@@ -1,4 +1,5 @@
 import './App.css';
+import { GitRepositories } from './samples/git-repositories';
 import { Samples } from './samples/samples';
 
-export const App = () => <Samples></Samples>;
+export const App = () => <GitRepositories></GitRepositories>;

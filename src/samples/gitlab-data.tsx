@@ -1,6 +1,5 @@
-import { useGitLabQuery } from 'src/hooks/gitGraphqlClient';
-import { useQuery } from 'urql';
-import { GET_GITLAB_PROJECTS } from './gitlab-queries';
+import { useGitLabQuery } from 'src/hooks/useGitQuery';
+import { GET_GITLAB_PROJECTS } from '../data/gitlab/gitlab-queries';
 
 export const GitLabData = () => {
   // const [result, reexecuteQuery] = useQuery<Group>({
