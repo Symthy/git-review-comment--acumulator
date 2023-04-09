@@ -1,9 +1,10 @@
 import { GET_GITLAB_PROJECTS } from 'src/data/gitlab/gitlab-queries';
 import { useGithubQuery, useGitLabQuery } from 'src/hooks/useGitQuery';
 import { GET_GITHUB_REPOSITORIES } from 'src/data/github/github-queries';
+import { User } from 'src/gql/github/graphql';
 
 export const GitRepositories = () => {
-  const [githubResult, reexecuteGithubQuery] = useGithubQuery<RepositoryData>({
+  const [githubResult, reexecuteGithubQuery] = useGithubQuery<{ user: User }>({
     query: GET_GITHUB_REPOSITORIES,
     variables: {
       owner: 'Symthy'
@@ -27,7 +28,7 @@ export const GitRepositories = () => {
     return <div>An error occurred! {gitlabError.toString()}</div>;
   }
 
-  const githubRepositories = githubData?.user.repositories.nodes.map((repo) => {
+  const githubRepositories = githubData?.user?.repositories?.nodes?.map((repo) => {
     return {
       ...repo,
       source: 'Github'
@@ -41,7 +42,7 @@ export const GitRepositories = () => {
     };
   });
 
-  const repositories: { name: string; url: string; source: string }[] = [];
+  const repositories: { name?: string; url?: string; source: string }[] = [];
   if (githubRepositories) {
     repositories.push(...githubRepositories);
   }

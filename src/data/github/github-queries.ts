@@ -23,7 +23,7 @@ export const GET_GITHUB_ISSUES = gql`
 `;
 
 export const GET_GITHUB_REPOSITORIES = gql`
-  query ($owner: String!) {
+  query GetGithubRepositories($owner: String!) {
     user(login: $owner) {
       repositories(last: 10) {
         nodes {

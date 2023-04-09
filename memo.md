@@ -30,6 +30,8 @@ npm i -D @graphql-codegen/cli
 npm i -D @graphql-codegen/client-preset
 ```
 
+ref: https://the-guild.dev/graphql/codegen/docs/getting-started
+
 ```
 npx graphql-code-generator init
 ```

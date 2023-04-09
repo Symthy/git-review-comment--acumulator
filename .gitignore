@@ -18,6 +18,8 @@ conf/*
 
 # graphql code gen
 src/gql
+src/mocks/github
+src/mocks/gitlab
 !.eslintignore
 
 # Editor directories and files
