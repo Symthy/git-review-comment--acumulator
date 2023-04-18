@@ -18,8 +18,9 @@
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
-    "@nextui-org/react": "^1.0.0-beta.12",
-    "@stitches/react": "^1.2.8",
+    "@emotion/react": "^11.10.6",
+    "@mantine/core": "^6.0.7",
+    "@mantine/hooks": "^6.0.7",
     "graphql": "^16.6.0",
     "js-yaml": "^4.1.0",
     "react": "^18.2.0",
@@ -38,6 +39,7 @@
     "@graphql-codegen/introspection": "3.0.1",
     "@graphql-codegen/typescript": "^3.0.3",
     "@graphql-codegen/typescript-operations": "^3.0.3",
+    "@graphql-codegen/typescript-urql": "^3.7.3",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.4.22",
     "@storybook/addon-interactions": "^6.5.12",
