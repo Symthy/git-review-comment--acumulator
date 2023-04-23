@@ -15,6 +15,7 @@ dist-ssr
 *.txt
 conf/*
 !conf/.env.template
+storybook-static
 
 # graphql code gen
 src/gql
@@ -32,3 +33,4 @@ src/mocks/gitlab
 *.njsproj
 *.sln
 *.sw?
+
