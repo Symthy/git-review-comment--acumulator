@@ -18,3 +18,9 @@ Access to http://localhost
 docker container exec -it gitlab bash
 cat /etc/gitlab/initial_root_password
 ```
+
+## referenced and used oss
+
+- 構成： https://github.com/alan2207/bulletproof-react
+
+- Store： https://github.com/pmndrs/zustand
