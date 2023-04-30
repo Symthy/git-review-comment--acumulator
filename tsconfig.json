@@ -15,6 +15,7 @@
     "isolatedModules": true, // ref: https://zenn.dev/ryo_kawamata/articles/0f63b7ffdaed97
     "noEmit": true,
     "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react", // viteはコンパイル時これを無視する ref: https://zenn.dev/riemonyamada/articles/e1430eace41f79
     "baseUrl": "."
   },
   "include": ["src", ".eslintrc.cjs", "vite.config.ts", "tests/setupTest.ts"],
