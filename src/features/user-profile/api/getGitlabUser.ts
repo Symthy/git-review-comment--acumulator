@@ -13,6 +13,12 @@ export const GET_GITLAB_USER_QUERY = gql`
             avatarUrl
           }
         }
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
       }
     }
   }

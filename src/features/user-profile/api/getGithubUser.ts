@@ -14,6 +14,12 @@ query GetGithubUser($first: Int = 100, $after: String = null) {
           avatarUrl
         }
       }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
     }
   }
 }
