@@ -3,15 +3,15 @@ import { forwardRef } from 'react';
 import { ChevronDown } from 'tabler-icons-react';
 
 interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
-  image?: string;
+  avatarImage?: string;
   name: string;
   color: string;
   subtext?: string;
-  icon?: React.ReactNode;
+  buttonIcon?: React.ReactNode;
 }
 
 export const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
-  ({ image, name, color, subtext, icon, ...others }: UserButtonProps, ref) => (
+  ({ avatarImage, name, color, subtext, buttonIcon, ...others }: UserButtonProps, ref) => (
     <UnstyledButton
       ref={ref}
       sx={(theme) => ({
@@ -23,7 +23,7 @@ export const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
       {...others}
     >
       <Group>
-        <Avatar src={image} radius='xl' />
+        <Avatar src={avatarImage} radius='xl' />
 
         <div style={{ flex: 1 }}>
           <Text size='sm' weight={500}>
@@ -38,7 +38,7 @@ export const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
           )}
         </div>
 
-        {icon || <ChevronDown size='1rem' />}
+        {buttonIcon || <ChevronDown size='1rem' />}
       </Group>
     </UnstyledButton>
   )

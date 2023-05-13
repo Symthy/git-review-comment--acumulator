@@ -19,6 +19,7 @@ export const useGithubQuery = <Data, Variables extends AnyVariables = AnyVariabl
 ): UseQueryResponse<Data, Variables> => {
   const context = buildContext(
     'https://api.github.com/graphql',
+    // TDOD: Set the token entered by the user on the GUI
     import.meta.env.DEV ? import.meta.env.VITE_GITHUB_TOKEN : ''
   );
   return useQuery<Data, Variables>({
@@ -31,6 +32,7 @@ export const useGitLabQuery = <Data, Variables extends AnyVariables = AnyVariabl
   args: UseQueryArgs<Variables, Data>
 ): UseQueryResponse<Data, Variables> => {
   const context = buildContext(
+    // TDOD: Set the token and url entered by the user on the GUI
     `${import.meta.env.VITE_GITLAB_URL}/api/graphql`,
     import.meta.env.DEV ? import.meta.env.VITE_GITLAB_TOKEN : ''
   );
