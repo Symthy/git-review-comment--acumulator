@@ -4,13 +4,15 @@ const config: CodegenConfig = {
   generates: {
     './src/gql/github/': {
       schema: 'https://docs.github.com/public/schema.docs.graphql',
-      documents: 'src/data/github/github-queries.ts',
+      // documents: 'src/data/github/github-queries.ts',
+      documents: 'src/features/**/*Github*.ts',
       preset: 'client',
       plugins: [] // 'typescript'を入れると型が２重出力される
     },
     './src/gql/gitlab/': {
       schema: 'https://gitlab.com/api/graphql?remove_deprecated=true',
-      documents: 'src/data/gitlab/gitlab-queries.ts',
+      // documents: 'src/data/gitlab/gitlab-queries.ts',
+      documents: 'src/features/**/*Gitlab*.ts',
       preset: 'client',
       plugins: [] // 'typescript'を入れると型が２重出力される
     },

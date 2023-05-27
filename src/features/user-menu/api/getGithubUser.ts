@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import { Maybe, PullRequest, User } from 'src/gql/github/graphql';
 
+export const GET_GITHUB_USER_QUERY_NAME = 'GetGithubUser';
 export const GET_GITHUB_USER_QUERY = gql`
   query GetGithubUser {
     viewer {

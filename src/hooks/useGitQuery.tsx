@@ -7,7 +7,8 @@ const buildContext = (url: string, accessToken: string) => {
       url: url,
       fetchOptions: {
         headers: {
-          authorization: `Bearer ${accessToken}`
+          authorization: `Bearer ${accessToken}`,
+          Accept: '*/*'
         }
       }
     };

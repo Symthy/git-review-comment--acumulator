@@ -1,14 +1,3 @@
-import { graphql } from 'msw';
-import { GetGithubRepositoriesDocument } from 'src/gql/github/graphql';
-import { mockGithubUser } from './github/mock';
+import { mockGithubUserAndPRs } from './resolvers/mockGithubUserAndPRs';
 
-export const handlers = [
-  // Handles a "GetUserInfo" query
-  graphql.query(GetGithubRepositoriesDocument, (req, res, ctx) => {
-    return res(
-      ctx.data({
-        user: mockGithubUser()
-      })
-    );
-  })
-];
+export const handlers = [mockGithubUserAndPRs];

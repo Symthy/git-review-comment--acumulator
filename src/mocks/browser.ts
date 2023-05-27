@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { setupWorker, rest as baseRest, SetupWorkerApi } from 'msw';
+import { setupWorker } from 'msw';
 import { handlers } from './handlers';
 
 export const worker = setupWorker(...handlers);

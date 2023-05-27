@@ -1,4 +1,5 @@
-import { initialize, mswDecorator } from 'msw-storybook-addon';
+import { initialize, mswDecorator, mswLoader } from 'msw-storybook-addon';
+import { handlers } from '../src/mocks/handlers';
 import React from 'react';
 
 // Initialize MSW
@@ -12,20 +13,26 @@ const commonDecorator = (StoryFn: Function) => {
   );
 };
 
-// Provide the MSW addon decorator globally
-export const decorators = [mswDecorator, commonDecorator];
-export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/
+const preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/
+      }
+    },
+    msw: {
+      handlers: {
+        menu: handlers
+      }
+    },
+    process: {
+      env: {}
     }
   },
-  msw: {
-    handlers: {}
-  },
-  process: {
-    env: {}
-  }
+  // Provide the MSW addon loader globally
+  loaders: [mswLoader]
 };
+
+export default preview;
