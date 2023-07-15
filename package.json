@@ -16,7 +16,8 @@
     "prepare": "husky install",
     "husky": "husky",
     "init-msw": "msw init public/",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.ts",
+    "plop": "plop"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -88,6 +89,7 @@
     "lint-staged": "^13.0.3",
     "msw": "^0.47.3",
     "msw-storybook-addon": "^1.8.0",
+    "plop": "^3.1.2",
     "prettier": "^2.7.1",
     "storybook": "future",
     "ts-jest": "^29.0.2",

@@ -1,18 +1,20 @@
 import { Menu } from '@mantine/core';
 import { useGithubQuery } from 'src/hooks/useGitQuery';
 import { GET_GITHUB_USER_QUERY, UserAndPRs } from './api/getGithubUser';
-import { User } from 'src/gql/github/graphql';
 import { UserButton } from './components/user-button';
 import { LoadingBox } from 'src/components/elements/loading-box';
 
 const color = '#228be6';
 
-export function UserProfileMenu() {
+type Props = {};
+
+export function UserProfileMenu({}: Props) {
   const [{ data, fetching, error }] = useGithubQuery<{ viewer: UserAndPRs }>({
     query: GET_GITHUB_USER_QUERY
   });
 
   if (error) {
+    // Todo: error handling
     throw error;
   }
 

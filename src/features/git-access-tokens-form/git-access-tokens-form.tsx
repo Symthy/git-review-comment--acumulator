@@ -1,7 +1,6 @@
 import { useForm } from '@mantine/form';
 import { TextInput, Button, Group, Box } from '@mantine/core';
 import { useEventListener } from '@mantine/hooks';
-import { css } from '@emotion/react';
 import { useCallback, useState } from 'react';
 
 export const GitAccessTokensForm = () => {

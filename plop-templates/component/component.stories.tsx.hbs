@@ -1,0 +1,13 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { {{pascalCase name}} } from './{{kebabCase name}}';
+
+type ComponentType = typeof {{pascalCase name}};
+
+export default {
+  title: '{{pascalCase name}}',
+  component: {{pascalCase name}}
+} satisfies Meta<ComponentType>;
+
+export const Default: StoryObj<ComponentType> = {
+  render: () => <{{pascalCase name}} />
+};

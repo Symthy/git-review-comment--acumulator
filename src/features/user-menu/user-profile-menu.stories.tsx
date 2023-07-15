@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { UserProfileMenu } from './user-profile-menu';
+import { UserProfileMenu } from '.';
 
-const meta: Meta<typeof UserProfileMenu> = {
+type COMPONENT = typeof UserProfileMenu;
+
+export default {
   title: 'UserProfileMenu',
   component: UserProfileMenu
-};
+} satisfies Meta<COMPONENT>;
 
-export default meta;
-type Story = StoryObj<typeof UserProfileMenu>;
-export const Primary: Story = {
+export const Default: StoryObj<COMPONENT> = {
   render: () => <UserProfileMenu />
 };
