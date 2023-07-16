@@ -1,7 +1,7 @@
 import { gql } from 'urql';
 
 export const GET_GITHUB_REPOSITORIES_QUERY = gql`
-  query GetGitlabProjects($groupName: String, $first: Int = 100, $after: String = null) {
+  query GetGitlabProjects($groupName: String = null, $first: Int = 100, $after: String = null) {
     currentUser {
       groups(search: $groupName) {
         edges {
