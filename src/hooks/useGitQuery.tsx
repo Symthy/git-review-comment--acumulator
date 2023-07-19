@@ -10,7 +10,8 @@ const buildContext = (url: string, accessToken: string) => {
           authorization: `Bearer ${accessToken}`,
           Accept: '*/*'
         }
-      }
+      },
+      suspense: true
     };
   }, []);
 };
