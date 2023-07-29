@@ -24,3 +24,7 @@ export const ExistImage: Story = {
 export const NoImage: Story = {
   render: () => <UserButton name={'Nothing'} color={'#228be6'} subtext={'Gitlab'} />
 };
+
+export const NoSubText: Story = {
+  render: () => <UserButton name={'Nothing'} color={'#228be6'} />
+};

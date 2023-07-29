@@ -9,7 +9,8 @@ const mockData: UserAndPRs = {
   pullRequests: {
     nodes: [
       { id: '1', title: 'dummy pull request 1' },
-      { id: '2', title: 'dummy pull request 2' }
+      { id: '2', title: 'dummy pull request 2' },
+      { id: '3', title: 'dummy pull request 3' }
     ]
   }
 };

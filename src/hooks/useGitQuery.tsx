@@ -1,18 +1,10 @@
 import { useMemo } from 'react';
+import { clientOptionBuilder } from 'src/api/client';
 import { AnyVariables, useQuery, UseQueryArgs, UseQueryResponse } from 'urql';
 
 const buildContext = (url: string, accessToken: string) => {
   return useMemo(() => {
-    return {
-      url: url,
-      fetchOptions: {
-        headers: {
-          authorization: `Bearer ${accessToken}`,
-          Accept: '*/*'
-        }
-      },
-      suspense: true
-    };
+    return clientOptionBuilder(url, accessToken);
   }, []);
 };
 

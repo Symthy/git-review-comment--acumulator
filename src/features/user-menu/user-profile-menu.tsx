@@ -2,7 +2,7 @@ import { Menu } from '@mantine/core';
 import { useGithubQuery } from 'src/hooks/useGitQuery';
 import { GET_GITHUB_USER_QUERY, UserAndPRs } from './api/getGithubUser';
 import { UserButton } from './components/user-button';
-import { LoadingBox } from 'src/components/elements/loading-box';
+import { LoadingBox } from 'src/components/loading-box';
 import { Suspense } from 'react';
 
 const color = '#228be6';

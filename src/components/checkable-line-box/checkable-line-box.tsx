@@ -4,13 +4,12 @@ import { ReactNode, useState } from 'react';
 type Props = {
   id: string;
   title: string;
-  subText?: string;
-  onCheck: () => void;
-  prefixChildren?: ReactNode;
-  suffixChildren?: ReactNode;
+  subText?: string | undefined;
+  prefixNode?: ReactNode;
+  suffixNode?: ReactNode;
 };
 
-export const CheckableLineBox = (props: Props) => {
+export const CheckableLineBox = ({ id, title, subText, prefixNode, suffixNode }: Props) => {
   const [checked, setChecked] = useState(false);
 
   return (
@@ -31,25 +30,26 @@ export const CheckableLineBox = (props: Props) => {
       })}
     >
       <Checkbox
-        value={props.id}
+        key={id}
+        value={id}
         label=''
         checked={checked}
         onChange={(event) => setChecked(event.currentTarget.checked)}
       />
-      {props.prefixChildren}
+      {prefixNode}
       <div style={{ flex: 1 }}>
         <Text size='lg' truncate>
-          {props.title}
+          {title}
         </Text>
-        {props.subText ? (
+        {subText || subText !== '' ? (
           <Text color='dimmed' size='xs' truncate>
-            {props.subText}
+            {subText}
           </Text>
         ) : (
           ''
         )}
       </div>
-      {props.suffixChildren}
+      {suffixNode}
     </Box>
   );
 };

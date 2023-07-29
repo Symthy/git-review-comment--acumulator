@@ -9,14 +9,5 @@ export default {
 } satisfies Meta<ComponentType>;
 
 export const Default: StoryObj<ComponentType> = {
-  render: () => (
-    <CheckableLineBox
-      id={'id'}
-      title={'CheckableLineBox'}
-      subText='description'
-      onCheck={function (): void {
-        throw new Error('Function not implemented.');
-      }}
-    />
-  )
+  render: () => <CheckableLineBox id={'id'} title={'CheckableLineBox'} subText='description' />
 };
