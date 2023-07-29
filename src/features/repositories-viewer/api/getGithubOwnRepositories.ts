@@ -38,14 +38,15 @@ type PickedRepositoryConnection = {
   pageInfo: PickedPageInfo;
 } & Pick<RepositoryConnection, 'totalCount'>;
 
-const fetchOwnRepositories = async (cursor?: string) => {
+export const fetchOwnRepositories = async (first: number, cursor?: string) => {
   const result = githubClient.query<{ viewer: GithubOwnRepositories }>(
     GET_GITHUB_OWN_REPOSITORIES_QUERY,
     cursor
       ? {
+          first: first,
           after: cursor
         }
-      : {}
+      : { first: first }
   );
   return (await result.toPromise()).data;
 };
@@ -61,7 +62,7 @@ export const useGetGithubOwnRepositories = (cursor?: string) =>
   });
 
 export const recursivelyFetchAllGithubOwnRepositories = async (currentCursor?: string): Promise<PickedRepository[]> => {
-  const data = await fetchOwnRepositories(currentCursor);
+  const data = await fetchOwnRepositories(100, currentCursor);
   if (!data) {
     return [];
   }
