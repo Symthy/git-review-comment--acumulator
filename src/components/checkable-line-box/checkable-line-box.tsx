@@ -25,14 +25,14 @@ export const CheckableLineBox = ({ value, title, subText, prefixNode, suffixNode
         display: 'flex',
         border: 'solid 0.01rem',
         borderColor: '#228be6',
-        boxShadow: '0.25rem 0.25rem 0.1rem rgba(0, 0, 0, 0.1)',
+        boxShadow: '0.2rem 0.2rem 0.1rem rgba(0, 0, 0, 0.1)',
         alignItems: 'center',
-        height: '3.5rem',
-        //padding: theme.spacing.xs,
+        height: '3.25rem',
+        margin: '0.5rem',
         borderRadius: theme.radius.sm,
         cursor: 'pointer',
         '&>*': {
-          margin: '0 0.5rem'
+          margin: '0rem 0.5rem'
         }
       })}
     >

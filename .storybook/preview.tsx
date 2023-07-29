@@ -22,17 +22,17 @@ const preview = {
         date: /Date$/
       }
     },
-    msw: {
-      handlers: {
-        menu: handlers
-      }
-    },
+    // msw: {
+    //   handlers: {
+    //     menu: handlers
+    //   }
+    // },
     process: {
       env: {}
     }
-  },
+  }
   // Provide the MSW addon loader globally
-  loaders: [mswLoader]
+  // loaders: [mswLoader]
 };
 
 export default preview;

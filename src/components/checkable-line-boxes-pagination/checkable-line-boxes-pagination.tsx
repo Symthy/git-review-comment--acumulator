@@ -1,17 +1,24 @@
-import { Checkbox, Pagination } from '@mantine/core';
+import { Checkbox, Pagination, ScrollArea } from '@mantine/core';
 import { CheckableLineBox, CheckableLineData } from '../checkable-line-box/checkable-line-box';
-import { useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 
 type CheckableLineBoxesPaginationProps = {
+  itemsPerPage?: number;
   fetchFirstPageData: (itemPerPage: number) => Promise<{ items: CheckableLineData[]; totalCount: number } | undefined>;
   fetchAllPageData: () => Promise<CheckableLineData[]>;
 };
 
+const ScrollAreaWapper = ({ children }: { children: ReactNode }) => (
+  <ScrollArea h={window.innerHeight - 100} sx={{ padding: '0.5rem' }}>
+    {children}
+  </ScrollArea>
+);
+
 export const CheckableLineBoxesPagination = ({
+  itemsPerPage = 20,
   fetchFirstPageData,
   fetchAllPageData
 }: CheckableLineBoxesPaginationProps) => {
-  const itemsPerPage = 20;
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [activePage, setPage] = useState(1);
   const [currentViewItems, setCurrentViewItems] = useState<CheckableLineData[]>([]);
@@ -44,22 +51,40 @@ export const CheckableLineBoxesPagination = ({
 
   if (isLoading) {
     // Todo
-    return <div>Loading...</div>;
+    return (
+      <ScrollAreaWapper>
+        <div>Loading...</div>
+      </ScrollAreaWapper>
+    );
   }
 
   if (currentViewItems == null || currentViewItems.length == 0) {
     // Todo
-    return <div>Empty</div>;
+    return (
+      <ScrollAreaWapper>
+        <div>Empty</div>
+      </ScrollAreaWapper>
+    );
   }
 
   return (
-    <div>
-      <Checkbox.Group value={selectedItems} onChange={setSelectedItems}>
-        {currentViewItems.map((item) => (
-          <CheckableLineBox key={item.key} value={item.value} title={item.title} subText={item.subtext} />
-        ))}
-      </Checkbox.Group>
-      <Pagination total={total} value={activePage} onChange={setPage} />
-    </div>
+    <>
+      <ScrollAreaWapper>
+        <Checkbox.Group value={selectedItems} onChange={setSelectedItems}>
+          {currentViewItems.map((item) => (
+            <CheckableLineBox key={item.key} value={item.value} title={item.title} subText={item.subtext} />
+          ))}
+        </Checkbox.Group>
+      </ScrollAreaWapper>
+      <Pagination
+        sx={{
+          padding: '0.5rem 0.25rem'
+        }}
+        total={total}
+        position='center'
+        value={activePage}
+        onChange={setPage}
+      />
+    </>
   );
 };
