@@ -9,5 +9,5 @@ export default {
 } satisfies Meta<ComponentType>;
 
 export const Default: StoryObj<ComponentType> = {
-  render: () => <CheckableLineBox id={'id'} title={'CheckableLineBox'} subText='description' />
+  render: () => <CheckableLineBox value={'id'} title={'CheckableLineBox'} subText='description' />
 };

@@ -3,54 +3,50 @@ import {
   fetchOwnRepositories,
   recursivelyFetchAllGithubOwnRepositories
 } from '../../api/getGithubOwnRepositories';
-import { useEffect, useRef, useState } from 'react';
-import { Checkbox, Pagination } from '@mantine/core';
-import { CheckableLineBox } from 'src/components/checkable-line-box';
+import { CheckableLineData } from 'src/components/checkable-line-box';
+import { CheckableLineBoxesPagination } from 'src/components/checkable-line-boxes-pagination';
 
 type Props = {};
 
 export const GithubOwnRepositoryList = ({}: Props) => {
-  const itemsPerPage = 20;
-  const [selectedRepositoryNames, setSelectedRepositoryNames] = useState<string[]>([]);
-  const [activePage, setPage] = useState(1);
-  const [currentViewRepos, setCurrentViewRepos] = useState<PickedRepository[]>([]);
-  const [total, setTotal] = useState(0);
-  const allRepos = useRef<PickedRepository[]>([]);
-
-  useEffect(() => {
-    const fetchFirstPageData = async () => {
-      const data = await fetchOwnRepositories(itemsPerPage);
-      if (data) {
-        setCurrentViewRepos(data.viewer.repositories.nodes);
-        setTotal(Math.floor(data.viewer.repositories.totalCount / itemsPerPage + 1));
+  const fetchRepositoriesForFirstPage = async (
+    itemsPerPage: number
+  ): Promise<{ items: CheckableLineData[]; totalCount: number } | undefined> => {
+    const data = fetchOwnRepositories(itemsPerPage);
+    return data.then((d) => {
+      if (!d) {
+        return undefined;
       }
-    };
-    const fetchAllOwnRepos = async () => {
-      const repos = await recursivelyFetchAllGithubOwnRepositories();
-      allRepos.current = repos;
-    };
-    fetchFirstPageData();
-    fetchAllOwnRepos();
-  }, []);
+      return {
+        items: d.viewer.repositories.nodes.map((node: PickedRepository) => {
+          return {
+            key: node.id,
+            value: node.name,
+            title: node.name,
+            subtext: node.description?.toString()
+          };
+        }),
+        totalCount: d.viewer.repositories.totalCount
+      };
+    });
+  };
 
-  useEffect(() => {
-    const firstPostIndex = (activePage - 1) * itemsPerPage;
-    const lastPostIndex = firstPostIndex + itemsPerPage;
-    setCurrentViewRepos(allRepos.current.slice(firstPostIndex, lastPostIndex));
-  }, [activePage]);
-
-  if (currentViewRepos == null || currentViewRepos.length == 0) {
-    return <div>Empty</div>;
-  }
+  const fetchAllRepositories = async (): Promise<CheckableLineData[]> => {
+    const repos = await recursivelyFetchAllGithubOwnRepositories();
+    return repos.map((repo: PickedRepository) => {
+      return {
+        key: repo.id,
+        value: repo.name,
+        title: repo.name,
+        subtext: repo.description?.toString()
+      };
+    });
+  };
 
   return (
-    <div>
-      <Checkbox.Group value={selectedRepositoryNames} onChange={setSelectedRepositoryNames}>
-        {currentViewRepos.map((repo) => (
-          <CheckableLineBox key={repo.id} id={repo.name} title={repo.name} subText={repo.description?.toString()} />
-        ))}
-      </Checkbox.Group>
-      <Pagination total={total} value={activePage} onChange={setPage} />
-    </div>
+    <CheckableLineBoxesPagination
+      fetchFirstPageData={fetchRepositoriesForFirstPage}
+      fetchAllPageData={fetchAllRepositories}
+    />
   );
 };
