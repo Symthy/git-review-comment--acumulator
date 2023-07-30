@@ -1,4 +1,4 @@
-import { Box, Checkbox, Text } from '@mantine/core';
+import { Box, CSSObject, Checkbox, MantineTheme, Sx, Text } from '@mantine/core';
 import { ReactNode, useState } from 'react';
 
 export type CheckableLineData = {
@@ -11,31 +11,34 @@ export type CheckableLineData = {
 type Props = {
   value: string;
   title: string;
-  subText?: string | undefined;
+  subText?: string;
+  style: CSSObject;
   prefixNode?: ReactNode;
   suffixNode?: ReactNode;
 };
 
-export const CheckableLineBox = ({ value, title, subText, prefixNode, suffixNode }: Props) => {
+export const CheckableLineBox = ({ value, title, subText, style, prefixNode, suffixNode }: Props) => {
   const [checked, setChecked] = useState(false);
+  console.log(style);
+  const buildStyle = (theme: MantineTheme, additionalStyle: CSSObject): CSSObject => {
+    const style = {
+      display: 'flex',
+      border: 'solid 0.01rem',
+      borderColor: '#228be6',
+      boxShadow: '0.2rem 0.2rem 0.1rem rgba(0, 0, 0, 0.1)',
+      alignItems: 'center',
+      height: '3.25rem',
+      borderRadius: theme.radius.sm,
+      cursor: 'pointer',
+      '&>*': {
+        margin: '0rem 0.5rem'
+      }
+    };
+    return { ...style, ...additionalStyle };
+  };
 
   return (
-    <Box
-      sx={(theme) => ({
-        display: 'flex',
-        border: 'solid 0.01rem',
-        borderColor: '#228be6',
-        boxShadow: '0.2rem 0.2rem 0.1rem rgba(0, 0, 0, 0.1)',
-        alignItems: 'center',
-        height: '3.25rem',
-        margin: '0.5rem',
-        borderRadius: theme.radius.sm,
-        cursor: 'pointer',
-        '&>*': {
-          margin: '0rem 0.5rem'
-        }
-      })}
-    >
+    <Box sx={(theme) => buildStyle(theme, style)}>
       <Checkbox
         value={value}
         label=''
