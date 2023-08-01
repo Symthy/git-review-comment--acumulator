@@ -12,6 +12,8 @@ export default {
 export const Default: StoryObj<ComponentType> = {
   render: () => (
     <CheckableLineBoxesPagination
+      selectedItems={[]}
+      setSelectedItems={function (items: string[]): void {}}
       fetchFirstPageData={function (
         itemPerPage: number
       ): Promise<{ items: CheckableLineData[]; totalCount: number } | undefined> {
