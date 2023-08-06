@@ -12,7 +12,10 @@ export default {
 export const Default: StoryObj<ComponentType> = {
   render: () => (
     <Suspense fallback={<div>Loading...</div>}>
-      <GithubOwnRepositoryList />
+      <GithubOwnRepositoryList
+        selectedRepositories={[]}
+        setSelectedRepositories={function (repos: string[]): void {}}
+      />
     </Suspense>
   )
 };

@@ -1,6 +1,7 @@
 import { Checkbox, Flex, Pagination, ScrollArea, SegmentedControl, Text } from '@mantine/core';
 import { CheckableLineBox, CheckableLineData } from '../checkable-line-box/checkable-line-box';
 import { ReactNode, useEffect, useRef, useState } from 'react';
+import { useCurrentViewItems } from './hooks/useCurrentViewItems';
 
 const useItemsPerPage = (initialState: number | (() => number)): [number, (state: string) => void] => {
   const [itemsPerPage, setItemsPerPageNum] = useState<number>(initialState);
@@ -22,29 +23,6 @@ const useTotalPages = (): [number, (allItemNums: number, itemsPerPage: number) =
   return [total, updateTotalPages];
 };
 
-const useCurrentViewItems = (): [
-  CheckableLineData[],
-  (items: CheckableLineData[]) => void,
-  (allItems: CheckableLineData[], itemsPerPage: number, activePage: number) => void
-] => {
-  const [currentViewItems, setCurrentViewItems] = useState<CheckableLineData[]>([]);
-  const initCurrentViewItems = (items: CheckableLineData[]) => {
-    if (currentViewItems.length === 0) {
-      setCurrentViewItems(items);
-    }
-  };
-  const updateCurrentViewItems = (allItems: CheckableLineData[], itemsPerPage: number, activePage: number) => {
-    if (allItems.length < itemsPerPage) {
-      setCurrentViewItems(allItems);
-      return;
-    }
-    const firstPostIndex = (activePage - 1) * itemsPerPage;
-    const lastPostIndex = firstPostIndex + itemsPerPage;
-    setCurrentViewItems(allItems.slice(firstPostIndex, lastPostIndex));
-  };
-  return [currentViewItems, initCurrentViewItems, updateCurrentViewItems];
-};
-
 const itemsPerPageList = [
   { label: '10', value: '10' },
   { label: '20', value: '20' },
@@ -53,32 +31,40 @@ const itemsPerPageList = [
   { label: '100', value: '100' }
 ];
 
-type CheckableLineBoxesPaginationProps = {
-  selectedItems: string[];
-  setSelectedItems: (items: string[]) => void;
-  fetchFirstPageData: (itemPerPage: number) => Promise<{ items: CheckableLineData[]; totalCount: number } | undefined>;
-  fetchAllPageData: () => Promise<CheckableLineData[]>;
-};
-
 const ScrollAreaWapper = ({ children }: { children: ReactNode }) => (
   <ScrollArea h={window.innerHeight - 135} sx={{ padding: '0.5rem' }}>
     {children}
   </ScrollArea>
 );
 
+type CheckableLineBoxesPaginationProps = {
+  selectedItems: string[];
+  setSelectedItems: (items: string[]) => void;
+  fetchFirstPageData: (itemPerPage: number) => Promise<{ items: CheckableLineData[]; totalCount: number } | undefined>;
+  fetchAllPageData: () => Promise<CheckableLineData[]>;
+  currentViewItems: ReturnType<typeof useCurrentViewItems>[0];
+  initCurrentViewItems: ReturnType<typeof useCurrentViewItems>[1];
+  updateCurrentViewItems: ReturnType<typeof useCurrentViewItems>[2];
+  children: ReactNode;
+};
+
 export const CheckableLineBoxesPagination = ({
   selectedItems,
   setSelectedItems,
   fetchFirstPageData,
-  fetchAllPageData
+  fetchAllPageData,
+  currentViewItems,
+  initCurrentViewItems,
+  updateCurrentViewItems,
+  children
 }: CheckableLineBoxesPaginationProps) => {
   const [activePage, setActivePage] = useState(1);
-  const [currentViewItems, initCurrentViewItems, updateCurrentViewItems] = useCurrentViewItems();
+
   const [totalPages, updateTotalPages] = useTotalPages();
   const [itemsPerPage, setItemsPerPage] = useItemsPerPage(20);
   const [isLoading, setIsLoading] = useState(true);
   const [enabledPagination, setEnabledPagination] = useState(false);
-  const allRepos = useRef<CheckableLineData[]>([]);
+  const allItems = useRef<CheckableLineData[]>([]);
 
   useEffect(() => {
     const initialize = async () => {
@@ -91,17 +77,19 @@ export const CheckableLineBoxesPagination = ({
     };
     const fetchAllData = async () => {
       const repos = await fetchAllPageData();
-      allRepos.current = repos;
+      allItems.current = repos;
       setEnabledPagination(true);
     };
     initialize();
     fetchAllData();
   }, []);
 
-  useEffect(() => updateCurrentViewItems(allRepos.current, itemsPerPage, activePage), [activePage]);
   useEffect(() => {
-    updateTotalPages(allRepos.current.length, itemsPerPage);
-    updateCurrentViewItems(allRepos.current, itemsPerPage, activePage);
+    updateCurrentViewItems(allItems.current, itemsPerPage, activePage);
+  }, [activePage]);
+  useEffect(() => {
+    updateTotalPages(allItems.current.length, itemsPerPage);
+    updateCurrentViewItems(allItems.current, itemsPerPage, activePage);
     setActivePage(1);
   }, [itemsPerPage]);
 
@@ -138,23 +126,7 @@ export const CheckableLineBoxesPagination = ({
       </Flex>
       <ScrollAreaWapper>
         <Checkbox.Group value={selectedItems} onChange={setSelectedItems}>
-          {currentViewItems.map((item, index) => {
-            let marginStyle = { margin: '0.5rem' };
-            if (index === 0) {
-              marginStyle = { margin: '0.1rem 0.5rem 0.5rem 0.5rem' };
-            } else if (index === currentViewItems.length - 1) {
-              marginStyle = { margin: '0.5rem 0.5rem 0.1rem 0.5rem' };
-            }
-            return (
-              <CheckableLineBox
-                key={item.key}
-                value={item.value}
-                title={item.title}
-                subText={item.subtext}
-                style={marginStyle}
-              />
-            );
-          })}
+          {children}
         </Checkbox.Group>
       </ScrollAreaWapper>
       <Pagination
