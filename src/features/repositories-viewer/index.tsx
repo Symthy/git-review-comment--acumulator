@@ -1,1 +1,1 @@
-export * from './repositories-viewer';
+export * from './composables/repositories-viewer';
