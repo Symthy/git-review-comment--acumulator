@@ -2,7 +2,7 @@ import { Tabs } from '@mantine/core';
 import { GithubOwnRepositoryList } from '../components/github-own-repository-list';
 import { GithubOrganizationRepositoryList } from '../components/github-organization-repository-list';
 import { GitlabRepositoryList } from '../components/gitlab-repository-list';
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import { useSelectedRepositories } from '../hooks/useSelectedRepositories';
 
 type Props = {};
@@ -20,24 +20,24 @@ export const RepositoriesViewer = ({}: Props) => {
       </Tabs.List>
 
       <Tabs.Panel value='Github' pt='xs'>
-        <Suspense>
-          <GithubOwnRepositoryList
-            selectedRepositories={selectedRepositories.GithubOwnRepositories}
-            setSelectedRepositories={setGithubOwnRepositories}
-          />
-        </Suspense>
+        <GithubOwnRepositoryList
+          selectedRepositories={selectedRepositories.GithubOwnRepositories}
+          setSelectedRepositories={setGithubOwnRepositories}
+        />
       </Tabs.Panel>
 
       <Tabs.Panel value='GithubOrgs' pt='xs'>
-        <Suspense>
-          <GithubOrganizationRepositoryList />
-        </Suspense>
+        <GithubOrganizationRepositoryList
+          selectedRepositories={selectedRepositories.GithubOrganizationRepositories}
+          setSelectedRepositories={setGithubOrganizationRepositories}
+        />
       </Tabs.Panel>
 
       <Tabs.Panel value='Gitlab' pt='xs'>
-        <Suspense>
-          <GitlabRepositoryList />
-        </Suspense>
+        <GitlabRepositoryList
+          selectedRepositories={selectedRepositories.GitLabRepositories}
+          setSelectedRepositories={setGitlabRepositories}
+        />
       </Tabs.Panel>
     </Tabs>
   );

@@ -19,7 +19,6 @@ type Props = {
 
 export const CheckableLineBox = ({ value, title, subText, style, prefixNode, suffixNode }: Props) => {
   const [checked, setChecked] = useState(false);
-  console.log(style);
   const buildStyle = (theme: MantineTheme, additionalStyle: CSSObject): CSSObject => {
     const style = {
       display: 'flex',

@@ -1,15 +1,9 @@
 import { Checkbox, Flex, Pagination, ScrollArea, SegmentedControl, Text } from '@mantine/core';
 import { CheckableLineBox, CheckableLineData } from '../checkable-line-box/checkable-line-box';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { useCurrentViewItems } from './hooks/useCurrentViewItems';
-
-const useItemsPerPage = (initialState: number | (() => number)): [number, (state: string) => void] => {
-  const [itemsPerPage, setItemsPerPageNum] = useState<number>(initialState);
-  const setItemsPerPage = (prevState: string) => {
-    setItemsPerPageNum(Number(prevState));
-  };
-  return [itemsPerPage, setItemsPerPage];
-};
+import { useItemsPerPage } from '../item-per-page-selection/useItemPerPage';
+import { ItemPerPageSelection } from '../item-per-page-selection';
 
 const useTotalPages = (): [number, (allItemNums: number, itemsPerPage: number) => void] => {
   const [total, setTotal] = useState(0);
@@ -22,14 +16,6 @@ const useTotalPages = (): [number, (allItemNums: number, itemsPerPage: number) =
   };
   return [total, updateTotalPages];
 };
-
-const itemsPerPageList = [
-  { label: '10', value: '10' },
-  { label: '20', value: '20' },
-  { label: '30', value: '30' },
-  { label: '50', value: '50' },
-  { label: '100', value: '100' }
-];
 
 const ScrollAreaWapper = ({ children }: { children: ReactNode }) => (
   <ScrollArea h={window.innerHeight - 135} sx={{ padding: '0.5rem' }}>
@@ -87,10 +73,16 @@ export const CheckableLineBoxesPagination = ({
   useEffect(() => {
     updateCurrentViewItems(allItems.current, itemsPerPage, activePage);
   }, [activePage]);
-  useEffect(() => {
+  const handleChangeItemsPerPage = useCallback(() => {
+    if (allItems.current.length === 0) {
+      // 初回描画時に allItems の初期化が終わっていない段階でこの関数が呼ばれ
+      // CurrentViewItems が Empty に上書きされるため、空なら何もしない
+      return;
+    }
+    const firstPage = 1;
     updateTotalPages(allItems.current.length, itemsPerPage);
-    updateCurrentViewItems(allItems.current, itemsPerPage, activePage);
-    setActivePage(1);
+    updateCurrentViewItems(allItems.current, itemsPerPage, firstPage);
+    setActivePage(firstPage);
   }, [itemsPerPage]);
 
   if (isLoading) {
@@ -102,7 +94,7 @@ export const CheckableLineBoxesPagination = ({
     );
   }
 
-  if (currentViewItems == null || currentViewItems.length == 0) {
+  if (currentViewItems == null || currentViewItems.length === 0) {
     // Todo
     return (
       <ScrollAreaWapper>
@@ -113,16 +105,13 @@ export const CheckableLineBoxesPagination = ({
 
   return (
     <>
-      <Flex justify='flex-end' align='center' direction='row'>
-        <SegmentedControl
-          value={itemsPerPage.toString()}
-          onChange={setItemsPerPage}
-          data={itemsPerPageList}
-          disabled={!enabledPagination}
+      <Flex justify='flex-end' align='center' direction='row' sx={{ marginRight: '1rem' }}>
+        <ItemPerPageSelection
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          enabledPagination={enabledPagination}
+          handleChangeItemsPerPage={handleChangeItemsPerPage}
         />
-        <Text fz='sm' sx={{ marginRight: '1rem' }}>
-          : Items per Page
-        </Text>
       </Flex>
       <ScrollAreaWapper>
         <Checkbox.Group value={selectedItems} onChange={setSelectedItems}>

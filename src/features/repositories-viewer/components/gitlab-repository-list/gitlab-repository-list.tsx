@@ -1,6 +1,9 @@
-type Props = {};
+type Props = {
+  selectedRepositories: string[];
+  setSelectedRepositories: (repos: string[]) => void;
+};
 
-export const GitlabRepositoryList = ({}: Props) => {
+export const GitlabRepositoryList = ({ selectedRepositories, setSelectedRepositories }: Props) => {
   return (
     <div>
       <h1>GitlabRepositoryList Component</h1>
