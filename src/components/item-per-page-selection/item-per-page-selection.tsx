@@ -1,5 +1,6 @@
 import { SegmentedControl, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
+import { useItemsPerPage } from './useItemPerPage';
 
 const defaultItemsPerPageChoices = [
   { label: '10', value: '10' },
@@ -11,18 +12,16 @@ const defaultItemsPerPageChoices = [
 
 type Props = {
   itemsPerPageChoices?: typeof defaultItemsPerPageChoices;
-  itemsPerPage: number;
-  setItemsPerPage: (state: string) => void;
-  enabledPagination: boolean;
-  handleChangeItemsPerPage: () => void;
+  enabled: boolean;
+  handleSelectItemsPerPage: () => void;
+  stateSet?: ReturnType<typeof useItemsPerPage>;
 };
 
 export const ItemPerPageSelection = ({
   itemsPerPageChoices,
-  itemsPerPage,
-  setItemsPerPage,
-  enabledPagination,
-  handleChangeItemsPerPage
+  enabled,
+  handleSelectItemsPerPage: handleChangeItemsPerPage,
+  stateSet: [itemsPerPage, setItemsPerPage] = useItemsPerPage(20)
 }: Props) => {
   useEffect(() => handleChangeItemsPerPage(), [itemsPerPage, handleChangeItemsPerPage]);
 
@@ -32,7 +31,7 @@ export const ItemPerPageSelection = ({
         value={itemsPerPage.toString()}
         onChange={setItemsPerPage}
         data={itemsPerPageChoices ?? defaultItemsPerPageChoices}
-        disabled={!enabledPagination}
+        disabled={!enabled}
       />
       <Text fz='sm'>: Items per Page</Text>
     </>

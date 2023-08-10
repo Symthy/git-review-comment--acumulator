@@ -9,5 +9,5 @@ export default {
 } satisfies Meta<ComponentType>;
 
 export const Default: StoryObj<ComponentType> = {
-  render: () => <ItemPerPageSelection />
+  render: () => <ItemPerPageSelection enabled={true} handleSelectItemsPerPage={() => {}} />
 };
