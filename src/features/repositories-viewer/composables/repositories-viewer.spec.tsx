@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { RepositoriesViewer } from '.';
+import { RepositoriesViewer } from '..';
 
 test('renders RepositoriesViewer component', () => {
   // render(<RepositoriesViewer />);

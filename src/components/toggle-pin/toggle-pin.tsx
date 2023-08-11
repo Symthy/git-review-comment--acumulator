@@ -3,11 +3,10 @@ import { Pin, PinnedOff } from 'tabler-icons-react';
 import { useTogglePin } from './hooks/useTogglePin';
 
 type Props = {
-  pinned: boolean;
-  togglePin: () => void;
+  stateSet?: ReturnType<typeof useTogglePin>;
 };
 
-export const TogglePin = ({ pinned, togglePin }: Props) => {
+export const TogglePin = ({ stateSet: [pinned, togglePin] = useTogglePin() }: Props) => {
   const handleClick = () => {
     togglePin();
   };

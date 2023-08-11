@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { CheckableLineData } from 'src/components/checkable-line-box/checkable-line-box';
 
 export const useCurrentViewItems = (
-  sortAllRepos: (items: CheckableLineData[]) => CheckableLineData[]
+  sortAllRepos: (items: CheckableLineData[]) => CheckableLineData[] = (items) => items
 ): [
   CheckableLineData[],
   (items: CheckableLineData[]) => void,

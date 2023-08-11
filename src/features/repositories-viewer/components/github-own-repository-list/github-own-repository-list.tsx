@@ -56,9 +56,7 @@ export const GithubOwnRepositoryList = ({ selectedRepositories, setSelectedRepos
   return (
     <RepositoryList
       selectedRepositories={selectedRepositories}
-      setSelectedRepositories={function (items: string[]): void {
-        throw new Error('Function not implemented.');
-      }}
+      setSelectedRepositories={setSelectedRepositories}
       fetchFirstPageRepositories={fetchFirstPageRepositories}
       fetchAllRepositories={fetchAllRepositories}
     />
