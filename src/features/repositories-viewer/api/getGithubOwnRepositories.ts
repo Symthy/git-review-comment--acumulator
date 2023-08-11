@@ -1,7 +1,6 @@
 import { githubClient } from 'src/api/client';
 import { PageInfo, Repository, RepositoryConnection, User } from 'src/gql/github/graphql';
 import { useGithubQuery } from 'src/hooks/useGitQuery';
-import { Variable } from 'tabler-icons-react';
 import { gql } from 'urql';
 
 const GET_GITHUB_OWN_REPOSITORIES_QUERY = gql`
@@ -9,7 +8,7 @@ const GET_GITHUB_OWN_REPOSITORIES_QUERY = gql`
     viewer {
       url
       avatarUrl
-      repositories(first: $first, after: $after, ownerAffiliations: [OWNER]) {
+      repositories(first: $first, after: $after, orderBy: { field: NAME, direction: ASC }, ownerAffiliations: [OWNER]) {
         nodes {
           id
           name

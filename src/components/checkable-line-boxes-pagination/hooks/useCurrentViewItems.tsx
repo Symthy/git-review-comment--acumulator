@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { CheckableLineData } from 'src/components/checkable-line-box/checkable-line-box';
 
-export const useCurrentViewItems = (
-  sortAllRepos: (items: CheckableLineData[]) => CheckableLineData[] = (items) => items
-): [
+export const useCurrentViewItems = (): [
   CheckableLineData[],
   (items: CheckableLineData[]) => void,
   (allItems: CheckableLineData[], itemsPerPage: number, activePage: number) => void
@@ -15,14 +13,13 @@ export const useCurrentViewItems = (
     }
   };
   const updateCurrentViewItems = (allItems: CheckableLineData[], itemsPerPage: number, activePage: number) => {
-    const sortedAllItems = sortAllRepos(allItems);
-    if (sortedAllItems.length < itemsPerPage) {
-      setCurrentViewItems(sortedAllItems);
+    if (allItems.length < itemsPerPage) {
+      setCurrentViewItems(allItems);
       return;
     }
     const firstPostIndex = (activePage - 1) * itemsPerPage;
     const lastPostIndex = firstPostIndex + itemsPerPage;
-    setCurrentViewItems(sortedAllItems.slice(firstPostIndex, lastPostIndex));
+    setCurrentViewItems(allItems.slice(firstPostIndex, lastPostIndex));
   };
   return [currentViewItems, initCurrentViewItems, updateCurrentViewItems];
 };

@@ -14,6 +14,7 @@ const ScrollAreaWapper = ({ children }: { children: ReactNode }) => (
 );
 
 type CheckableLineBoxesPaginationProps = {
+  allItems: any;
   selectedItems: string[];
   setSelectedItems: (items: string[]) => void;
   fetchFirstPageData: (itemPerPage: number) => Promise<{ items: CheckableLineData[]; totalCount: number } | undefined>;
@@ -21,10 +22,12 @@ type CheckableLineBoxesPaginationProps = {
   currentViewItems: ReturnType<typeof useCurrentViewItems>[0];
   initCurrentViewItems: ReturnType<typeof useCurrentViewItems>[1];
   updateCurrentViewItems: ReturnType<typeof useCurrentViewItems>[2];
+  itemsSorter: (items: CheckableLineData[]) => CheckableLineData[];
   children: ReactNode;
 };
 
 export const CheckableLineBoxesPagination = ({
+  allItems,
   selectedItems,
   setSelectedItems,
   fetchFirstPageData,
@@ -32,15 +35,14 @@ export const CheckableLineBoxesPagination = ({
   currentViewItems,
   initCurrentViewItems,
   updateCurrentViewItems,
+  itemsSorter,
   children
 }: CheckableLineBoxesPaginationProps) => {
   const [activePage, setActivePage] = useState(1);
-
   const [totalPages, updateTotalPages] = useTotalPages();
   const [itemsPerPage, setItemsPerPage] = useItemsPerPage(20);
   const [isLoading, setIsLoading] = useState(true);
   const [enabledPagination, setEnabledPagination] = useState(false);
-  const allItems = useRef<CheckableLineData[]>([]);
 
   useEffect(() => {
     const initialize = async () => {
@@ -52,8 +54,8 @@ export const CheckableLineBoxesPagination = ({
       setIsLoading(false);
     };
     const fetchAllData = async () => {
-      const repos = await fetchAllPageData();
-      allItems.current = repos;
+      const items = await fetchAllPageData();
+      allItems.current = itemsSorter(items);
       setEnabledPagination(true);
     };
     initialize();
