@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { CheckableLineBoxesPagination } from './checkable-line-boxes-pagination';
-import { CheckableLineData } from '../checkable-line-box/checkable-line-box';
+import { CheckableLineData } from '../../components/checkable-line-box';
 
 type ComponentType = typeof CheckableLineBoxesPagination;
 
@@ -26,6 +26,7 @@ export const Default: StoryObj<ComponentType> = {
           resolve([]);
         });
       }}
+      children={undefined}
     />
   )
 };

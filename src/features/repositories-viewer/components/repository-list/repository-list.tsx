@@ -1,11 +1,10 @@
 import { CheckableLineData } from 'src/components/checkable-line-box';
-import { CheckableLineBoxesPagination } from 'src/components/checkable-line-boxes-pagination';
-import { useCurrentViewItems } from 'src/components/checkable-line-boxes-pagination/hooks/useCurrentViewItems';
-import { sortLogic } from '../../functional/sortLogic';
+import { CheckableLineBoxesPagination } from 'src/composables/checkable-line-boxes-pagination';
+import { useCurrentViewItems } from 'src/composables/checkable-line-boxes-pagination/hooks/useCurrentViewItems';
 import { CheckableLineBoxesWithPin, usePinnedItems } from 'src/composables/checkable-line-boxes-with-pin';
-import { useCallback, useRef } from 'react';
-import { useSorterReducer } from 'src/components/select-box/hooks/useSorterReducer';
-import { useAllItemsAccessor } from 'src/components/checkable-line-boxes-pagination/hooks/useAllItemsAccessor';
+import { useCallback } from 'react';
+import { useAllItemsAccessor } from 'src/composables/checkable-line-boxes-pagination/hooks/useAllItemsAccessor';
+import { useSorterReducer } from 'src/components/order-select-box';
 
 type Props = {
   selectedRepositories: string[];

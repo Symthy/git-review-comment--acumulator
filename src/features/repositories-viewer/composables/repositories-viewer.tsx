@@ -2,7 +2,6 @@ import { Tabs } from '@mantine/core';
 import { GithubOwnRepositoryList } from '../components/github-own-repository-list';
 import { GithubOrganizationRepositoryList } from '../components/github-organization-repository-list';
 import { GitlabRepositoryList } from '../components/gitlab-repository-list';
-import { Suspense } from 'react';
 import { useSelectedRepositories } from '../hooks/useSelectedRepositories';
 
 type Props = {};

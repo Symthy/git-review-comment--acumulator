@@ -22,7 +22,7 @@ export const OrderSelectBox = ({
   return (
     <>
       <Flex align='center' sx={{ '&>*': { margin: '0 0.25rem' } }}>
-        <Text>order by:</Text>
+        <Text size='sm'>order by:</Text>
         <NativeSelect
           value={order}
           onChange={(event) => {

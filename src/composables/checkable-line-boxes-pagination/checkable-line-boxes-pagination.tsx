@@ -1,13 +1,13 @@
-import { Checkbox, Flex, Group, ScrollArea } from '@mantine/core';
-import { CheckableLineData } from '../checkable-line-box/checkable-line-box';
-import { ReactNode, useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { Checkbox, Group, ScrollArea } from '@mantine/core';
+import { CheckableLineData } from '../../components/checkable-line-box/checkable-line-box';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { useCurrentViewItems } from './hooks/useCurrentViewItems';
-import { useItemsPerPage } from '../item-per-page-selection/useItemPerPage';
-import { ItemPerPageSelection } from '../item-per-page-selection';
-import { Pagination } from '../pagination';
+import { useItemsPerPage } from '../../components/item-per-page-selection/useItemPerPage';
+import { ItemPerPageSelection } from '../../components/item-per-page-selection';
+import { Pagination } from '../../components/pagination';
 import { useTotalPages } from './hooks/useTotalPages';
-import { OrderSelectBox } from '../select-box';
-import { useSorterReducer } from '../select-box/hooks/useSorterReducer';
+import { OrderSelectBox, useSorterReducer } from '../../components/order-select-box';
+
 import { useAllItemsAccessor } from './hooks/useAllItemsAccessor';
 
 const defaultSortLogic = (prev: CheckableLineData, next: CheckableLineData) =>
@@ -20,24 +20,24 @@ const ScrollAreaWapper = ({ children }: { children: ReactNode }) => (
 );
 
 type CheckableLineBoxesPaginationProps = {
-  allItemsAccessor: ReturnType<typeof useAllItemsAccessor>;
+  allItemsAccessor?: ReturnType<typeof useAllItemsAccessor>;
   selectedItems: string[];
   setSelectedItems: (items: string[]) => void;
   fetchFirstPageData: (itemPerPage: number) => Promise<{ items: CheckableLineData[]; totalCount: number } | undefined>;
   fetchAllPageData: () => Promise<CheckableLineData[]>;
-  currentViewItemsStateSet: ReturnType<typeof useCurrentViewItems>;
-  sorterReducerSet: ReturnType<typeof useSorterReducer>;
+  currentViewItemsStateSet?: ReturnType<typeof useCurrentViewItems>;
+  sorterReducerSet?: ReturnType<typeof useSorterReducer>;
   children: ReactNode;
 };
 
 export const CheckableLineBoxesPagination = ({
-  allItemsAccessor: [getAllItems, setAllItems],
+  allItemsAccessor: [getAllItems, setAllItems] = useAllItemsAccessor(),
   selectedItems,
   setSelectedItems,
   fetchFirstPageData,
   fetchAllPageData,
-  currentViewItemsStateSet: [currentViewItems, initCurrentViewItems, updateCurrentViewItems],
-  sorterReducerSet: [sorter, dispatch],
+  currentViewItemsStateSet: [currentViewItems, initCurrentViewItems, updateCurrentViewItems] = useCurrentViewItems(),
+  sorterReducerSet: [sorter, dispatch] = useSorterReducer(),
   children
 }: CheckableLineBoxesPaginationProps) => {
   const [activePage, setActivePage] = useState(1);
