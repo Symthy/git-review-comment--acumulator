@@ -6,7 +6,11 @@ export type CheckableLineData = {
   value: string;
   title: string;
   subtext?: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
+
+export type CheckableLineDataAny<T> = CheckableLineData & T;
 
 type Props = {
   value: string;

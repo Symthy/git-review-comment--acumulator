@@ -12,6 +12,17 @@ type Props = {
   setSelectedRepositories: (repos: string[]) => void;
 };
 
+const convertGithubRepositoryToCheckableLineData = (node: PickedRepository): CheckableLineData => {
+  return {
+    key: node.id,
+    value: node.name,
+    title: node.name,
+    subtext: node.description?.toString(),
+    createdAt: new Date(Date.parse(node.createdAt)),
+    updatedAt: new Date(Date.parse(node.updatedAt))
+  };
+};
+
 export const GithubOwnRepositoryList = ({ selectedRepositories, setSelectedRepositories }: Props) => {
   const sortRepos = (items: CheckableLineData[]) => items.sort(sortLogic);
 
@@ -26,12 +37,7 @@ export const GithubOwnRepositoryList = ({ selectedRepositories, setSelectedRepos
       return {
         items: sortRepos(
           d.viewer.repositories.nodes.map((node: PickedRepository) => {
-            return {
-              key: node.id,
-              value: node.name,
-              title: node.name,
-              subtext: node.description?.toString()
-            };
+            return convertGithubRepositoryToCheckableLineData(node);
           })
         ),
         totalCount: d.viewer.repositories.totalCount
@@ -43,12 +49,7 @@ export const GithubOwnRepositoryList = ({ selectedRepositories, setSelectedRepos
     const repos = await recursivelyFetchAllGithubOwnRepositories();
     return repos
       .map((repo: PickedRepository) => {
-        return {
-          key: repo.id,
-          value: repo.name,
-          title: repo.name,
-          subtext: repo.description?.toString()
-        };
+        return convertGithubRepositoryToCheckableLineData(repo);
       })
       .sort(sortLogic);
   };

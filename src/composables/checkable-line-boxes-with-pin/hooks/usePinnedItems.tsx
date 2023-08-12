@@ -19,8 +19,8 @@ export const usePinnedItems = (): [string[], (repoName: string) => boolean, (rep
     }
     setItemNameToPinState(newItemNameToPinState);
   };
-  const pinnedItems = Array.from(itemNameToPinState)
+  const pinnedItemNames = Array.from(itemNameToPinState)
     .filter(([_, v]) => v)
     .map(([k, _]) => k);
-  return [pinnedItems, getPinState, togglePin];
+  return [pinnedItemNames, getPinState, togglePin];
 };

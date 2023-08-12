@@ -1,11 +1,17 @@
-import { Checkbox, Flex, ScrollArea } from '@mantine/core';
+import { Checkbox, Flex, Group, ScrollArea } from '@mantine/core';
 import { CheckableLineData } from '../checkable-line-box/checkable-line-box';
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { useCurrentViewItems } from './hooks/useCurrentViewItems';
 import { useItemsPerPage } from '../item-per-page-selection/useItemPerPage';
 import { ItemPerPageSelection } from '../item-per-page-selection';
 import { Pagination } from '../pagination';
 import { useTotalPages } from './hooks/useTotalPages';
+import { OrderSelectBox } from '../select-box';
+import { useSorterReducer } from '../select-box/hooks/useSorterReducer';
+import { useAllItemsAccessor } from './hooks/useAllItemsAccessor';
+
+const defaultSortLogic = (prev: CheckableLineData, next: CheckableLineData) =>
+  prev.value.toLocaleLowerCase() < next.value.toLocaleLowerCase() ? -1 : 1;
 
 const ScrollAreaWapper = ({ children }: { children: ReactNode }) => (
   <ScrollArea h={window.innerHeight - 135} sx={{ padding: '0.5rem' }}>
@@ -14,28 +20,24 @@ const ScrollAreaWapper = ({ children }: { children: ReactNode }) => (
 );
 
 type CheckableLineBoxesPaginationProps = {
-  allItems: any;
+  allItemsAccessor: ReturnType<typeof useAllItemsAccessor>;
   selectedItems: string[];
   setSelectedItems: (items: string[]) => void;
   fetchFirstPageData: (itemPerPage: number) => Promise<{ items: CheckableLineData[]; totalCount: number } | undefined>;
   fetchAllPageData: () => Promise<CheckableLineData[]>;
-  currentViewItems: ReturnType<typeof useCurrentViewItems>[0];
-  initCurrentViewItems: ReturnType<typeof useCurrentViewItems>[1];
-  updateCurrentViewItems: ReturnType<typeof useCurrentViewItems>[2];
-  itemsSorter: (items: CheckableLineData[]) => CheckableLineData[];
+  currentViewItemsStateSet: ReturnType<typeof useCurrentViewItems>;
+  sorterReducerSet: ReturnType<typeof useSorterReducer>;
   children: ReactNode;
 };
 
 export const CheckableLineBoxesPagination = ({
-  allItems,
+  allItemsAccessor: [getAllItems, setAllItems],
   selectedItems,
   setSelectedItems,
   fetchFirstPageData,
   fetchAllPageData,
-  currentViewItems,
-  initCurrentViewItems,
-  updateCurrentViewItems,
-  itemsSorter,
+  currentViewItemsStateSet: [currentViewItems, initCurrentViewItems, updateCurrentViewItems],
+  sorterReducerSet: [sorter, dispatch],
   children
 }: CheckableLineBoxesPaginationProps) => {
   const [activePage, setActivePage] = useState(1);
@@ -55,32 +57,39 @@ export const CheckableLineBoxesPagination = ({
     };
     const fetchAllData = async () => {
       const items = await fetchAllPageData();
-      allItems.current = itemsSorter(items);
+      setAllItems(sorter(items));
       setEnabledPagination(true);
     };
     initialize();
     fetchAllData();
   }, []);
 
-  const handleSelectActivePage = useCallback(() => {
+  const handleSelectOrderBy = useCallback(() => {
     if (!enabledPagination) {
-      // 初回描画時に allItems の初期化が終わっていない段階でこの関数が呼ばれ
-      // CurrentViewItems が Empty に上書きされるため、空なら何もしない
+      // 初回描画時に 全データ取得が終わっていない状態でこの関数が呼ばれ、空になるため終わるまでは何もしない
       return;
     }
-    updateCurrentViewItems(allItems.current, itemsPerPage, activePage);
+    setAllItems(sorter(getAllItems()));
+    updateCurrentViewItems(getAllItems(), itemsPerPage, activePage);
+  }, [enabledPagination, sorter]);
+
+  const handleSelectActivePage = useCallback(() => {
+    if (!enabledPagination) {
+      // 初回描画時に 全データ取得が終わっていない状態でこの関数が呼ばれ、空になるため終わるまでは何もしない
+      return;
+    }
+    updateCurrentViewItems(getAllItems(), itemsPerPage, activePage);
   }, [activePage, enabledPagination]);
 
   const handleSelectItemsPerPage = useCallback(() => {
     if (!enabledPagination) {
-      // 初回描画時に allItems の初期化が終わっていない段階でこの関数が呼ばれ
-      // CurrentViewItems が Empty に上書きされるため、空なら何もしない
+      // 初回描画時に 全データ取得が終わっていない状態でこの関数が呼ばれ、空になるため終わるまでは何もしない
       return;
     }
     const firstPage = 1;
-    updateTotalPages(allItems.current.length, itemsPerPage);
-    updateCurrentViewItems(allItems.current, itemsPerPage, firstPage);
+    updateTotalPages(getAllItems().length, itemsPerPage);
     setActivePage(firstPage);
+    updateCurrentViewItems(getAllItems(), itemsPerPage, firstPage);
   }, [itemsPerPage, enabledPagination]);
 
   if (isLoading) {
@@ -103,13 +112,14 @@ export const CheckableLineBoxesPagination = ({
 
   return (
     <>
-      <Flex justify='flex-end' align='center' direction='row' sx={{ marginRight: '1rem' }}>
+      <Group position='apart' sx={{ margin: '0 1rem' }}>
+        <OrderSelectBox handleSelectOrder={handleSelectOrderBy} sorterReducerSet={[sorter, dispatch]}></OrderSelectBox>
         <ItemPerPageSelection
           enabled={enabledPagination}
           handleSelectItemsPerPage={handleSelectItemsPerPage}
           stateSet={[itemsPerPage, setItemsPerPage]}
         />
-      </Flex>
+      </Group>
       <ScrollAreaWapper>
         <Checkbox.Group value={selectedItems} onChange={setSelectedItems}>
           {children}

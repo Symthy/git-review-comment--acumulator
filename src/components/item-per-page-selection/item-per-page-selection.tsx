@@ -1,4 +1,4 @@
-import { SegmentedControl, Text } from '@mantine/core';
+import { Flex, SegmentedControl, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useItemsPerPage } from './useItemPerPage';
 
@@ -26,7 +26,7 @@ export const ItemPerPageSelection = ({
   useEffect(() => handleChangeItemsPerPage(), [itemsPerPage, handleChangeItemsPerPage]);
 
   return (
-    <>
+    <Flex align='center' sx={{ '&>*': { margin: '0 0.2rem' } }}>
       <SegmentedControl
         value={itemsPerPage.toString()}
         onChange={setItemsPerPage}
@@ -34,6 +34,6 @@ export const ItemPerPageSelection = ({
         disabled={!enabled}
       />
       <Text fz='sm'>: Items per Page</Text>
-    </>
+    </Flex>
   );
 };

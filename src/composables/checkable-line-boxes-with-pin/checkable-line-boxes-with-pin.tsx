@@ -9,21 +9,18 @@ const defaultSortLogic = (prev: CheckableLineData, next: CheckableLineData): num
 
 type Props = {
   currentViewItems: CheckableLineData[];
-  sortLogic?: (prev: CheckableLineData, next: CheckableLineData) => number;
-  handleClickPin: (sorter: (items: CheckableLineData[]) => CheckableLineData[]) => void;
+  handleClickPin: (pinnedItemNames: string[]) => void;
+  pinnedItemsStateSet: ReturnType<typeof usePinnedItems>;
 };
 
-export const CheckableLineBoxesWithPin = ({ currentViewItems, sortLogic, handleClickPin }: Props) => {
-  const [pinnedItems, getPinState, togglePin] = usePinnedItems();
-  const sortTopPinnedItems = (items: CheckableLineData[]): CheckableLineData[] => {
-    const sortedPinnedItems = items.filter((item) => pinnedItems.includes(item.value)).sort(sortLogic);
-    const sortedNonPinnedItems = items.filter((repo) => !pinnedItems.includes(repo.value)).sort(sortLogic);
-    return [...sortedPinnedItems, ...sortedNonPinnedItems];
-  };
-
+export const CheckableLineBoxesWithPin = ({
+  currentViewItems,
+  handleClickPin,
+  pinnedItemsStateSet: [pinnedItemNames, getPinState, togglePin] = usePinnedItems()
+}: Props) => {
   useEffect(() => {
-    handleClickPin(sortTopPinnedItems);
-  }, [pinnedItems]);
+    handleClickPin(pinnedItemNames);
+  }, [pinnedItemNames.length]);
 
   return (
     <>

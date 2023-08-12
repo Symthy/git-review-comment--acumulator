@@ -14,6 +14,8 @@ const GET_GITHUB_OWN_REPOSITORIES_QUERY = gql`
           name
           url
           description
+          createdAt
+          updatedAt
         }
         pageInfo {
           hasNextPage
@@ -30,7 +32,7 @@ const GET_GITHUB_OWN_REPOSITORIES_QUERY = gql`
 type GithubOwnRepositories = Pick<User, 'login' | 'url' | 'avatarUrl' | 'repositories'> & {
   repositories: PickedRepositoryConnection;
 };
-export type PickedRepository = Pick<Repository, 'id' | 'name' | 'url' | 'description'>;
+export type PickedRepository = Pick<Repository, 'id' | 'name' | 'url' | 'description' | 'createdAt' | 'updatedAt'>;
 type PickedPageInfo = Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>;
 type PickedRepositoryConnection = {
   nodes: PickedRepository[];
