@@ -1,5 +1,5 @@
 import { Flex, SegmentedControl, Text } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useItemsPerPage } from './useItemPerPage';
 
 const defaultItemsPerPageChoices = [
@@ -23,7 +23,7 @@ export const ItemPerPageSelection = ({
   handleSelectItemsPerPage: handleChangeItemsPerPage,
   stateSet: [itemsPerPage, setItemsPerPage] = useItemsPerPage(20)
 }: Props) => {
-  useEffect(() => handleChangeItemsPerPage(), [itemsPerPage, handleChangeItemsPerPage]);
+  useEffect(() => handleChangeItemsPerPage(), [itemsPerPage]);
 
   return (
     <Flex align='center' sx={{ '&>*': { margin: '0 0.2rem' } }}>

@@ -1,6 +1,6 @@
 import { Checkbox, Group, ScrollArea } from '@mantine/core';
 import { CheckableLineData } from '../../components/checkable-line-box/checkable-line-box';
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useCurrentViewItems } from './hooks/useCurrentViewItems';
 import { useItemsPerPage } from '../../components/item-per-page-selection/useItemPerPage';
 import { ItemPerPageSelection } from '../../components/item-per-page-selection';
@@ -9,9 +9,6 @@ import { useTotalPages } from './hooks/useTotalPages';
 import { OrderSelectBox, useSorterReducer } from '../../components/order-select-box';
 
 import { useAllItemsAccessor } from './hooks/useAllItemsAccessor';
-
-const defaultSortLogic = (prev: CheckableLineData, next: CheckableLineData) =>
-  prev.value.toLocaleLowerCase() < next.value.toLocaleLowerCase() ? -1 : 1;
 
 const ScrollAreaWapper = ({ children }: { children: ReactNode }) => (
   <ScrollArea h={window.innerHeight - 135} sx={{ padding: '0.5rem' }}>
@@ -64,24 +61,24 @@ export const CheckableLineBoxesPagination = ({
     fetchAllData();
   }, []);
 
-  const handleSelectOrderBy = useCallback(() => {
+  const handleSelectOrderBy = () => {
     if (!enabledPagination) {
       // 初回描画時に 全データ取得が終わっていない状態でこの関数が呼ばれ、空になるため終わるまでは何もしない
       return;
     }
     setAllItems(sorter(getAllItems()));
     updateCurrentViewItems(getAllItems(), itemsPerPage, activePage);
-  }, [enabledPagination, sorter]);
+  };
 
-  const handleSelectActivePage = useCallback(() => {
+  const handleSelectActivePage = () => {
     if (!enabledPagination) {
       // 初回描画時に 全データ取得が終わっていない状態でこの関数が呼ばれ、空になるため終わるまでは何もしない
       return;
     }
     updateCurrentViewItems(getAllItems(), itemsPerPage, activePage);
-  }, [activePage, enabledPagination]);
+  };
 
-  const handleSelectItemsPerPage = useCallback(() => {
+  const handleSelectItemsPerPage = () => {
     if (!enabledPagination) {
       // 初回描画時に 全データ取得が終わっていない状態でこの関数が呼ばれ、空になるため終わるまでは何もしない
       return;
@@ -90,7 +87,7 @@ export const CheckableLineBoxesPagination = ({
     updateTotalPages(getAllItems().length, itemsPerPage);
     setActivePage(firstPage);
     updateCurrentViewItems(getAllItems(), itemsPerPage, firstPage);
-  }, [itemsPerPage, enabledPagination]);
+  };
 
   if (isLoading) {
     // Todo
