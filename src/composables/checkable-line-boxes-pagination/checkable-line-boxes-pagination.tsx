@@ -2,19 +2,11 @@ import { Checkbox, Group, ScrollArea } from '@mantine/core';
 import { CheckableLineData } from '../../components/checkable-line-box/checkable-line-box';
 import { ReactNode, useEffect, useState } from 'react';
 import { useCurrentViewItems } from './hooks/useCurrentViewItems';
-import { useItemsPerPage } from '../../components/item-per-page-selection/useItemPerPage';
-import { ItemPerPageSelection } from '../../components/item-per-page-selection';
+import { ItemsPerPageSelection, useItemsPerPage } from '../../components/items-per-page-selection';
 import { Pagination } from '../../components/pagination';
 import { useTotalPages } from './hooks/useTotalPages';
 import { OrderSelectBox, useSorterReducer } from '../../components/order-select-box';
-
 import { useAllItemsAccessor } from './hooks/useAllItemsAccessor';
-
-const ScrollAreaWapper = ({ children }: { children: ReactNode }) => (
-  <ScrollArea h={window.innerHeight - 135} sx={{ padding: '0.5rem' }}>
-    {children}
-  </ScrollArea>
-);
 
 type CheckableLineBoxesPaginationProps = {
   allItemsAccessor?: ReturnType<typeof useAllItemsAccessor>;
@@ -91,42 +83,34 @@ export const CheckableLineBoxesPagination = ({
 
   if (isLoading) {
     // Todo
-    return (
-      <ScrollAreaWapper>
-        <div>Loading...</div>
-      </ScrollAreaWapper>
-    );
+    return <div>Loading...</div>;
   }
 
   if (currentViewItems == null || currentViewItems.length === 0) {
     // Todo
-    return (
-      <ScrollAreaWapper>
-        <div>Empty</div>
-      </ScrollAreaWapper>
-    );
+    return <div>Empty</div>;
   }
 
   return (
     <>
       <Group position='apart' sx={{ margin: '0 1rem' }}>
         <OrderSelectBox handleSelectOrder={handleSelectOrderBy} sorterReducerSet={[sorter, dispatch]}></OrderSelectBox>
-        <ItemPerPageSelection
+        <ItemsPerPageSelection
           enabled={enabledPagination}
           handleSelectItemsPerPage={handleSelectItemsPerPage}
           stateSet={[itemsPerPage, setItemsPerPage]}
         />
       </Group>
-      <ScrollAreaWapper>
+      <ScrollArea h={window.innerHeight - 135} sx={{ padding: '0.5rem' }}>
         <Checkbox.Group value={selectedItems} onChange={setSelectedItems}>
           {children}
         </Checkbox.Group>
-      </ScrollAreaWapper>
+      </ScrollArea>
       <Pagination
         totalPages={totalPages}
         enabled={enabledPagination}
         handleSelectActivePage={handleSelectActivePage}
-        stateSet={[activePage, setActivePage]}
+        activePageStateSet={[activePage, setActivePage]}
       />
     </>
   );

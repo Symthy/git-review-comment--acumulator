@@ -1,23 +1,19 @@
 import { Pagination as MantinePagenation } from '@mantine/core';
-import { useEffect, useState } from 'react';
-
-const useActivePage = (): [number, (page: number) => void] => {
-  const [activePage, setActivePage] = useState(1);
-  return [activePage, setActivePage];
-};
+import { useEffect } from 'react';
+import { useActivePage } from './hooks/useActivePage';
 
 type Props = {
   enabled: boolean;
   totalPages: number;
   handleSelectActivePage: () => void;
-  stateSet?: ReturnType<typeof useActivePage>;
+  activePageStateSet?: ReturnType<typeof useActivePage>;
 };
 
 export const Pagination = ({
   enabled,
   totalPages = 1,
   handleSelectActivePage,
-  stateSet: [activePage, setActivePage] = useActivePage()
+  activePageStateSet: [activePage, setActivePage] = useActivePage()
 }: Props) => {
   useEffect(() => {
     handleSelectActivePage();

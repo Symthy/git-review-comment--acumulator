@@ -1,6 +1,6 @@
 import { Flex, SegmentedControl, Text } from '@mantine/core';
 import { useEffect } from 'react';
-import { useItemsPerPage } from './useItemPerPage';
+import { useItemsPerPage } from './hooks/useItemsPerPage';
 
 const defaultItemsPerPageChoices = [
   { label: '10', value: '10' },
@@ -17,7 +17,7 @@ type Props = {
   stateSet?: ReturnType<typeof useItemsPerPage>;
 };
 
-export const ItemPerPageSelection = ({
+export const ItemsPerPageSelection = ({
   itemsPerPageChoices,
   enabled,
   handleSelectItemsPerPage: handleChangeItemsPerPage,

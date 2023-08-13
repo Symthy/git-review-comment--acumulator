@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { ItemPerPageSelection } from '.';
+import { ItemsPerPageSelection } from '.';
 
 test('renders ItemPerPageSelection component', () => {
-  render(<ItemPerPageSelection enabled={true} handleSelectItemsPerPage={() => {}} />);
+  render(<ItemsPerPageSelection enabled={true} handleSelectItemsPerPage={() => {}} />);
 
   const titleElement = screen.getByRole('heading', { level: 1, name: /ItemPerPageSelection Component/i });
 

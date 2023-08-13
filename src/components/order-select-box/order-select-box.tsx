@@ -3,6 +3,17 @@ import { useEffect, useState } from 'react';
 import { Directions, Orders, Sorter } from './types';
 import { useSorterReducer } from './hooks/useSorterReducer';
 
+const defaultOrderByValues = [
+  { label: 'name', value: 'NAME' },
+  { label: 'created time', value: 'CREATED_AT' },
+  { label: 'updated time', value: 'UPDATED_AT' }
+];
+
+const defaultDirectionValues = [
+  { label: 'Asc', value: 'ASC' },
+  { label: 'Desc', value: 'DESC' }
+];
+
 type Props = {
   handleSelectOrder: (itemsSorter: Sorter) => void;
   sorterReducerSet?: ReturnType<typeof useSorterReducer>;
@@ -30,11 +41,7 @@ export const OrderSelectBox = ({
             setOrder(value);
             dispatch({ order: value as Orders, direction: direction as Directions });
           }}
-          data={[
-            { value: 'NAME', label: 'name' },
-            { value: 'CREATED_AT', label: 'created time' },
-            { value: 'UPDATED_AT', label: 'updated time' }
-          ]}
+          data={defaultOrderByValues}
         />
         <SegmentedControl
           value={direction}
@@ -42,10 +49,7 @@ export const OrderSelectBox = ({
             setDirection(value);
             dispatch({ order: order as Orders, direction: value as Directions });
           }}
-          data={[
-            { label: 'Asc', value: 'ASC' },
-            { label: 'Desc', value: 'DESC' }
-          ]}
+          data={defaultDirectionValues}
         />
       </Flex>
     </>

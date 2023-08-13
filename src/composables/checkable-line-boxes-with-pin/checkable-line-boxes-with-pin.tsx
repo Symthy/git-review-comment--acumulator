@@ -38,7 +38,7 @@ export const CheckableLineBoxesWithPin = ({
             title={item.title}
             subText={item.subtext}
             style={marginStyle}
-            suffixNode={<TogglePin stateSet={[getPinState(item.value), () => togglePin(item.value)]} />}
+            suffixNode={<TogglePin pinnedStateSet={[getPinState(item.value), () => togglePin(item.value)]} />}
           />
         );
       })}
