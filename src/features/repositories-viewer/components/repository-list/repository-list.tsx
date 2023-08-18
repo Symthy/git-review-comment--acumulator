@@ -1,8 +1,7 @@
 import { CheckableLineData } from 'src/components/checkable-line-box';
 import { CheckableLineBoxesPagination } from 'src/composables/checkable-line-boxes-pagination';
-import { useCurrentViewItems } from 'src/composables/checkable-line-boxes-pagination/hooks/useCurrentViewItems';
 import { CheckableLineBoxesWithPin, usePinnedItems } from 'src/composables/checkable-line-boxes-with-pin';
-import { useAllItemsAccessor } from 'src/composables/checkable-line-boxes-pagination/hooks/useAllItemsAccessor';
+import { useCheckableLineItemsRef } from 'src/composables/checkable-line-boxes-pagination/hooks/useCheckableLineItemsRef';
 import { useSorterReducer } from 'src/components/order-select-box';
 
 type Props = {
@@ -20,36 +19,35 @@ export const RepositoryList = ({
   fetchFirstPageRepositories,
   fetchAllRepositories
 }: Props) => {
-  const [currentViewItems, initCurrentViewItems, updateCurrentViewItems] = useCurrentViewItems();
-  const [getAllItems, setAllItems] = useAllItemsAccessor();
-  const [sorter, dispatch] = useSorterReducer();
+  const itemsRef = useCheckableLineItemsRef();
+  const [itemsSorter, dispatch] = useSorterReducer();
+
   const [pinnedItemNames, getPinState, togglePin] = usePinnedItems();
 
   const pinnedItemsToTopSorter = (items: CheckableLineData[]): CheckableLineData[] => {
-    const sortedPinnedItems = sorter(items.filter((item) => pinnedItemNames.includes(item.value)));
-    const sortedNonPinnedItems = sorter(items.filter((item) => !pinnedItemNames.includes(item.value)));
+    const sortedPinnedItems = itemsSorter(items.filter((item) => pinnedItemNames.includes(item.value)));
+    const sortedNonPinnedItems = itemsSorter(items.filter((item) => !pinnedItemNames.includes(item.value)));
     return [...sortedPinnedItems, ...sortedNonPinnedItems];
   };
-
   const handleClickPin = () => {
-    setAllItems(pinnedItemsToTopSorter(getAllItems()));
+    itemsRef.sort(pinnedItemsToTopSorter);
   };
 
   return (
     <CheckableLineBoxesPagination
-      allItemsAccessor={[getAllItems, setAllItems]}
+      itemsRef={itemsRef}
       selectedItems={selectedRepositories}
       setSelectedItems={setSelectedRepositories}
       fetchFirstPageData={fetchFirstPageRepositories}
       fetchAllPageData={fetchAllRepositories}
-      currentViewItemsStateSet={[currentViewItems, initCurrentViewItems, updateCurrentViewItems]}
       sorterReducerSet={[pinnedItemsToTopSorter, dispatch]}
-    >
-      <CheckableLineBoxesWithPin
-        currentViewItems={currentViewItems}
-        handleClickPin={handleClickPin}
-        pinnedItemsStateSet={[pinnedItemNames, getPinState, togglePin]}
-      />
-    </CheckableLineBoxesPagination>
+      render={(currentViewItems) => (
+        <CheckableLineBoxesWithPin
+          currentViewItems={currentViewItems}
+          handleClickPin={handleClickPin}
+          pinnedItemsStateSet={[pinnedItemNames, getPinState, togglePin]}
+        />
+      )}
+    />
   );
 };
