@@ -1,7 +1,6 @@
 import { CheckableLineData } from 'src/components/checkable-line-box';
-import { CheckableLineBoxesPagination } from 'src/composables/checkable-line-boxes-pagination';
+import { CheckableLineBoxesViewer } from 'src/composables/checkable-line-boxes-pagination';
 import { CheckableLineBoxesWithPin, usePinnedItems } from 'src/composables/checkable-line-boxes-with-pin';
-import { useCheckableLineItemsRef } from 'src/composables/checkable-line-boxes-pagination/hooks/useCheckableLineItemsRef';
 import { useSorterReducer } from 'src/components/order-select-box';
 
 type Props = {
@@ -19,32 +18,25 @@ export const RepositoryList = ({
   fetchFirstPageRepositories,
   fetchAllRepositories
 }: Props) => {
-  const itemsRef = useCheckableLineItemsRef();
   const [itemsSorter, dispatch] = useSorterReducer();
-
   const [pinnedItemNames, getPinState, togglePin] = usePinnedItems();
-
   const pinnedItemsToTopSorter = (items: CheckableLineData[]): CheckableLineData[] => {
     const sortedPinnedItems = itemsSorter(items.filter((item) => pinnedItemNames.includes(item.value)));
     const sortedNonPinnedItems = itemsSorter(items.filter((item) => !pinnedItemNames.includes(item.value)));
     return [...sortedPinnedItems, ...sortedNonPinnedItems];
   };
-  const handleClickPin = () => {
-    itemsRef.sort(pinnedItemsToTopSorter);
-  };
 
   return (
-    <CheckableLineBoxesPagination
-      itemsRef={itemsRef}
+    <CheckableLineBoxesViewer
       selectedItems={selectedRepositories}
       setSelectedItems={setSelectedRepositories}
       fetchFirstPageData={fetchFirstPageRepositories}
       fetchAllPageData={fetchAllRepositories}
       sorterReducerSet={[pinnedItemsToTopSorter, dispatch]}
-      render={(currentViewItems) => (
+      render={(currentViewItems, itemsRef) => (
         <CheckableLineBoxesWithPin
           currentViewItems={currentViewItems}
-          handleClickPin={handleClickPin}
+          handleClickPin={() => itemsRef.sort()}
           pinnedItemsStateSet={[pinnedItemNames, getPinState, togglePin]}
         />
       )}

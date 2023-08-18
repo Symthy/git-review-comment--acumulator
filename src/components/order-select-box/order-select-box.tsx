@@ -1,7 +1,9 @@
 import { Text, Flex, NativeSelect, SegmentedControl } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Directions, Orders, Sorter } from './types';
 import { useSorterReducer } from './hooks/useSorterReducer';
+
+import { useSortOptions } from './hooks/useSortOptions';
 
 const defaultOrderByValues = [
   { label: 'name', value: 'NAME' },
@@ -16,38 +18,34 @@ const defaultDirectionValues = [
 
 type Props = {
   handleSelectOrder: (itemsSorter: Sorter) => void;
-  sorterReducerSet?: ReturnType<typeof useSorterReducer>;
+  sortOptionsStateSet?: ReturnType<typeof useSortOptions>;
+  dispatchSortOptions?: ReturnType<typeof useSorterReducer>[1];
 };
 
 export const OrderSelectBox = ({
-  handleSelectOrder,
-  sorterReducerSet: [sorter, dispatch] = useSorterReducer()
+  sortOptionsStateSet: [sortOptions, setSortOptions] = useSortOptions(),
+  dispatchSortOptions = useSorterReducer()[1]
 }: Props) => {
-  const [order, setOrder] = useState<string>('NAME');
-  const [direction, setDirection] = useState<string>('ASC');
-
-  useEffect(() => {
-    handleSelectOrder(sorter);
-  }, [order, direction]);
-
   return (
     <>
       <Flex align='center' sx={{ '&>*': { margin: '0 0.25rem' } }}>
         <Text size='sm'>order by:</Text>
         <NativeSelect
-          value={order}
+          value={sortOptions.order}
           onChange={(event) => {
-            const value = event.currentTarget.value;
-            setOrder(value);
-            dispatch({ order: value as Orders, direction: direction as Directions });
+            const value = event.currentTarget.value as Orders;
+            const newSortOptions = { ...sortOptions, order: value };
+            setSortOptions(newSortOptions);
+            dispatchSortOptions(newSortOptions);
           }}
           data={defaultOrderByValues}
         />
         <SegmentedControl
-          value={direction}
-          onChange={(value: string) => {
-            setDirection(value);
-            dispatch({ order: order as Orders, direction: value as Directions });
+          value={sortOptions.direction}
+          onChange={(value: Directions) => {
+            const newSortOptions = { ...sortOptions, direction: value };
+            setSortOptions(newSortOptions);
+            dispatchSortOptions(newSortOptions);
           }}
           data={defaultDirectionValues}
         />

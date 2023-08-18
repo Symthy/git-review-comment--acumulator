@@ -3,7 +3,7 @@ import { CheckableLineData } from 'src/components/checkable-line-box';
 
 class CheckableLineItems {
   private _allItems: MutableRefObject<CheckableLineData[]>;
-  constructor() {
+  constructor(private _itemsSorter: (items: CheckableLineData[]) => CheckableLineData[]) {
     this._allItems = useRef<CheckableLineData[]>([]);
   }
 
@@ -15,11 +15,13 @@ class CheckableLineItems {
     this._allItems.current = items;
   }
 
-  sort(itemsSorter: (items: CheckableLineData[]) => CheckableLineData[]) {
-    this._allItems.current = itemsSorter(this._allItems.current);
+  sort(): void {
+    this._allItems.current = this._itemsSorter(this._allItems.current);
   }
 }
 
-export const useCheckableLineItemsRef = (): CheckableLineItems => {
-  return new CheckableLineItems();
+export const useCheckableLineItemsRef = (
+  itemsSorter: (items: CheckableLineData[]) => CheckableLineData[]
+): CheckableLineItems => {
+  return new CheckableLineItems(itemsSorter);
 };
