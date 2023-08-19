@@ -2,6 +2,7 @@ import { CheckableLineBox, CheckableLineData } from 'src/components/checkable-li
 import { TogglePin } from 'src/components/toggle-pin';
 import { usePinnedItems } from './hooks/usePinnedItems';
 import { useEffect } from 'react';
+import { useCheckableLineItemsRef } from '../checkable-line-boxes-viewer';
 
 const defaultSortLogic = (prev: CheckableLineData, next: CheckableLineData): number => {
   return prev.value.toLocaleLowerCase() < next.value.toLocaleLowerCase() ? -1 : 1;
@@ -9,17 +10,17 @@ const defaultSortLogic = (prev: CheckableLineData, next: CheckableLineData): num
 
 type Props = {
   currentViewItems: CheckableLineData[];
-  handleClickPin: (pinnedItemNames: string[]) => void;
+  itemsRef: ReturnType<typeof useCheckableLineItemsRef>;
   pinnedItemsStateSet: ReturnType<typeof usePinnedItems>;
 };
 
-export const CheckableLineBoxesWithPin = ({
+export const CheckableLineBoxListWithPin = ({
   currentViewItems,
-  handleClickPin,
+  itemsRef,
   pinnedItemsStateSet: [pinnedItemNames, getPinState, togglePin] = usePinnedItems()
 }: Props) => {
   useEffect(() => {
-    handleClickPin(pinnedItemNames);
+    itemsRef.sort();
   }, [pinnedItemNames.length]);
 
   return (

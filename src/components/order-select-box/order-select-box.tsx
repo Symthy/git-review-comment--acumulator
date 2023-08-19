@@ -1,5 +1,4 @@
 import { Text, Flex, NativeSelect, SegmentedControl } from '@mantine/core';
-import { useEffect } from 'react';
 import { Directions, Orders, Sorter } from './types';
 import { useSorterReducer } from './hooks/useSorterReducer';
 
@@ -17,7 +16,6 @@ const defaultDirectionValues = [
 ];
 
 type Props = {
-  handleSelectOrder: (itemsSorter: Sorter) => void;
   sortOptionsStateSet?: ReturnType<typeof useSortOptions>;
   dispatchSortOptions?: ReturnType<typeof useSorterReducer>[1];
 };

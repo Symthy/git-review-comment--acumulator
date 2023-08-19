@@ -1,6 +1,6 @@
 import { CheckableLineData } from 'src/components/checkable-line-box';
-import { CheckableLineBoxesViewer } from 'src/composables/checkable-line-boxes-pagination';
-import { CheckableLineBoxesWithPin, usePinnedItems } from 'src/composables/checkable-line-boxes-with-pin';
+import { CheckableLineBoxesViewer } from 'src/composables/checkable-line-boxes-viewer';
+import { CheckableLineBoxListWithPin, usePinnedItems } from 'src/composables/checkable-line-box-list-with-pin';
 import { useSorterReducer } from 'src/components/order-select-box';
 
 type Props = {
@@ -34,9 +34,9 @@ export const RepositoryList = ({
       fetchAllPageData={fetchAllRepositories}
       sorterReducerSet={[pinnedItemsToTopSorter, dispatch]}
       render={(currentViewItems, itemsRef) => (
-        <CheckableLineBoxesWithPin
+        <CheckableLineBoxListWithPin
           currentViewItems={currentViewItems}
-          handleClickPin={() => itemsRef.sort()}
+          itemsRef={itemsRef}
           pinnedItemsStateSet={[pinnedItemNames, getPinState, togglePin]}
         />
       )}

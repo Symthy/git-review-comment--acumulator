@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { CheckableLineBoxesPagination } from './checkable-line-boxes-pagination';
+import { CheckableLineBoxesPagination } from './checkable-line-boxes-viewer';
 import { CheckableLineData } from '../../components/checkable-line-box';
 
 type ComponentType = typeof CheckableLineBoxesPagination;
