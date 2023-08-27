@@ -16,11 +16,13 @@ const defaultDirectionValues = [
 ];
 
 type Props = {
+  enabled: boolean;
   sortOptionsStateSet?: ReturnType<typeof useSortOptions>;
   dispatchSortOptions?: ReturnType<typeof useSorterReducer>[1];
 };
 
 export const OrderSelectBox = ({
+  enabled,
   sortOptionsStateSet: [sortOptions, setSortOptions] = useSortOptions(),
   dispatchSortOptions = useSorterReducer()[1]
 }: Props) => {
@@ -29,6 +31,7 @@ export const OrderSelectBox = ({
       <Flex align='center' sx={{ '&>*': { margin: '0 0.25rem' } }}>
         <Text size='sm'>order by:</Text>
         <NativeSelect
+          disabled={!enabled}
           value={sortOptions.order}
           onChange={(event) => {
             const value = event.currentTarget.value as Orders;
@@ -39,6 +42,7 @@ export const OrderSelectBox = ({
           data={defaultOrderByValues}
         />
         <SegmentedControl
+          disabled={!enabled}
           value={sortOptions.direction}
           onChange={(value: Directions) => {
             const newSortOptions = { ...sortOptions, direction: value };

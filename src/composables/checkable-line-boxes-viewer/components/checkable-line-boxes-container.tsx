@@ -3,7 +3,7 @@ import { CheckableLineData } from 'src/components/checkable-line-box';
 import { useSorterReducer } from 'src/components/order-select-box';
 import { useCheckableLineItemsRef } from '../hooks/useCheckableLineItemsRef';
 import { useCurrentViewItems } from '../hooks/useCurrentViewItems';
-import { useItemsPerPage } from 'src/components/items-per-page-selection';
+import { useItemsPerPage } from 'src/components/items-per-page-select-box';
 import { useTotalPages } from '../hooks/useTotalPages';
 import { CheckableLineBoxesProvider } from '../checkable-line-boxes.context';
 import { ItemsPerPage } from './items-per-page';

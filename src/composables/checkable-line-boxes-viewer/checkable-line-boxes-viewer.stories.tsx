@@ -1,17 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { CheckableLineBoxesPagination } from './checkable-line-boxes-viewer';
+import { CheckableLineBoxesViewer } from './checkable-line-boxes-viewer';
 import { CheckableLineData } from '../../components/checkable-line-box';
+import { ReactNode } from 'react';
+import { useCheckableLineItemsRef } from './hooks/useCheckableLineItemsRef';
 
-type ComponentType = typeof CheckableLineBoxesPagination;
+type ComponentType = typeof CheckableLineBoxesViewer;
 
 export default {
-  title: 'CheckableLineBoxesPagination',
-  component: CheckableLineBoxesPagination
+  title: 'CheckableLineBoxesViewer',
+  component: CheckableLineBoxesViewer
 } satisfies Meta<ComponentType>;
 
 export const Default: StoryObj<ComponentType> = {
   render: () => (
-    <CheckableLineBoxesPagination
+    <CheckableLineBoxesViewer
       selectedItems={[]}
       setSelectedItems={function (items: string[]): void {}}
       fetchFirstPageData={function (
@@ -26,7 +28,12 @@ export const Default: StoryObj<ComponentType> = {
           resolve([]);
         });
       }}
-      children={undefined}
+      render={function (
+        currentViewItems: CheckableLineData[],
+        itemsRef: ReturnType<typeof useCheckableLineItemsRef>
+      ): ReactNode {
+        return <div></div>;
+      }}
     />
   )
 };

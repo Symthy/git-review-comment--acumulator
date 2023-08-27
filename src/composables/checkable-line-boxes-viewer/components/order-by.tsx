@@ -18,6 +18,7 @@ export const OrderBy = ({ dispatchSortOptions }: { dispatchSortOptions: ReturnTy
 
   return (
     <OrderSelectBox
+      enabled={enabledPagination}
       dispatchSortOptions={dispatchSortOptions}
       sortOptionsStateSet={[sortOptions, setSortOptions]}
     ></OrderSelectBox>

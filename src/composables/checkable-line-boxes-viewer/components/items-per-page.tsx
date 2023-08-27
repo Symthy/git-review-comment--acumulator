@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useCheckableLineBoxesContext } from '../checkable-line-boxes.context';
-import { ItemsPerPageSelection } from 'src/components/items-per-page-selection';
-import { CheckableLineBoxesContainer } from './checkable-line-boxes-container';
+import { ItemsPerPageSelectBox } from 'src/components/items-per-page-select-box';
 
 export const ItemsPerPage = () => {
   const {
@@ -25,5 +24,5 @@ export const ItemsPerPage = () => {
     updateCurrentViewItems(itemsRef.allItems, itemsPerPage, firstPage);
   }, [itemsPerPage]);
 
-  return <ItemsPerPageSelection enabled={enabledPagination} stateSet={[itemsPerPage, setItemsPerPage]} />;
+  return <ItemsPerPageSelectBox enabled={enabledPagination} stateSet={[itemsPerPage, setItemsPerPage]} />;
 };

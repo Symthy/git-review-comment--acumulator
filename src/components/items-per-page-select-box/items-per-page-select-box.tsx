@@ -15,8 +15,8 @@ type Props = {
   stateSet?: ReturnType<typeof useItemsPerPage>;
 };
 
-export const ItemsPerPageSelection = ({
-  itemsPerPageChoices,
+export const ItemsPerPageSelectBox = ({
+  itemsPerPageChoices = defaultItemsPerPageChoices,
   enabled,
   stateSet: [itemsPerPage, setItemsPerPage] = useItemsPerPage(20)
 }: Props) => {

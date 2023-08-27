@@ -1,4 +1,4 @@
-import { useItemsPerPage } from 'src/components/items-per-page-selection';
+import { useItemsPerPage } from 'src/components/items-per-page-select-box';
 import { useCheckableLineItemsRef } from './hooks/useCheckableLineItemsRef';
 import { useCurrentViewItems } from './hooks/useCurrentViewItems';
 import { useTotalPages } from './hooks/useTotalPages';
