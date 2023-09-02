@@ -13,7 +13,12 @@ export const Group = ({
   setSelectedItems: (items: string[]) => void;
   render: (currentViewItems: CheckableLineData[], itemsRef: ReturnType<typeof useCheckableLineItemsRef>) => ReactNode;
 }) => {
-  const { itemsRef, currentViewItems } = useCheckableLineBoxesContext();
+  const { itemsRef, currentViewItems, isLoading } = useCheckableLineBoxesContext();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <ScrollArea h={window.innerHeight - 180} sx={{ padding: '0.5rem' }}>
       <Checkbox.Group value={selectedItems} onChange={setSelectedItems}>

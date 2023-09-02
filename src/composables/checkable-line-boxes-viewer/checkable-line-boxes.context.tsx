@@ -15,7 +15,9 @@ type ContextValues = {
   itemsPerPage: ReturnType<typeof useItemsPerPage>[0];
   setItemsPerPage: ReturnType<typeof useItemsPerPage>[1];
   isLoading: boolean;
+  setIsLoading: (isloading: boolean) => void;
   enabledPagination: boolean;
+  executeLoadData: () => void;
 };
 
 const CheckableLineBoxesContext = createContext<any>({});

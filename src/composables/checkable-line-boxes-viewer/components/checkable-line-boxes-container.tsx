@@ -10,6 +10,7 @@ import { ItemsPerPage } from './items-per-page';
 import { OrderBy } from './order-by';
 import { Group } from './group';
 import { PaginationBox } from './pagination-box';
+import { Reload } from './reload';
 
 type CheckableLineBoxesContainerProps = {
   fetchFirstPageData: (itemPerPage: number) => Promise<{ items: CheckableLineData[]; totalCount: number } | undefined>;
@@ -31,8 +32,7 @@ export const CheckableLineBoxesContainer = ({
   const [itemsPerPage, setItemsPerPage] = useItemsPerPage(20);
   const [isLoading, setIsLoading] = useState(true);
   const [enabledPagination, setEnabledPagination] = useState(false);
-
-  useEffect(() => {
+  const executeLoadData = () => {
     const initialize = async () => {
       const data = await fetchFirstPageData(itemsPerPage);
       if (data) {
@@ -49,6 +49,10 @@ export const CheckableLineBoxesContainer = ({
     };
     initialize();
     fetchAllData();
+  };
+
+  useEffect(() => {
+    executeLoadData();
   }, []);
 
   return (
@@ -64,7 +68,9 @@ export const CheckableLineBoxesContainer = ({
         itemsPerPage,
         setItemsPerPage,
         isLoading,
-        enabledPagination
+        setIsLoading,
+        enabledPagination,
+        executeLoadData
       }}
     >
       {children}
@@ -76,3 +82,4 @@ CheckableLineBoxesContainer.ItemsPerPage = ItemsPerPage;
 CheckableLineBoxesContainer.OrderBy = OrderBy;
 CheckableLineBoxesContainer.Group = Group;
 CheckableLineBoxesContainer.PaginationBox = PaginationBox;
+CheckableLineBoxesContainer.Reload = Reload;

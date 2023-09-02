@@ -30,6 +30,7 @@ export const CheckableLineBoxesViewer = ({
     >
       <Group position='apart' sx={{ margin: '0 1rem' }}>
         <CheckableLineBoxesContainer.OrderBy dispatchSortOptions={dispatchSortOptions} />
+        <CheckableLineBoxesContainer.Reload />
         <CheckableLineBoxesContainer.ItemsPerPage />
       </Group>
       <CheckableLineBoxesContainer.Group
